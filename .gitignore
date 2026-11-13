@@ -36,3 +36,9 @@ prisma/*.db-journal
 *.sw?
 .DS_Store
 Thumbs.db
+
+# Temporary artifacts and screenshots
+screenshot.png
+frontend/public/images/design_crops/
+screenshot_desktop.png
+screenshot_mobile.png

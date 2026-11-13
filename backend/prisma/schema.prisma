@@ -1,0 +1,55 @@
+// Prisma schema for Hermanos Drivers Platform
+// PostgreSQL Database Connection & Models
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum ServiceType {
+  VEHICLE_DELIVERY
+  LONG_DISTANCE
+  PRIVATE_DRIVING
+  VEHICLE_COLLECTION
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  COMPLETED
+  CANCELLED
+}
+
+model Booking {
+  id              String        @id @default(uuid())
+  customerName    String        @map("customer_name")
+  phoneNumber     String        @map("phone_number")
+  serviceType     ServiceType   @map("service_type")
+  pickupLocation  String?       @map("pickup_location")
+  dropoffLocation String?       @map("dropoff_location")
+  notes           String?       @db.Text
+  status          BookingStatus @default(PENDING)
+  createdAt       DateTime      @default(now()) @map("created_at")
+  updatedAt       DateTime      @updatedAt @map("updated_at")
+
+  @@index([phoneNumber])
+  @@index([status])
+  @@index([createdAt])
+  @@map("bookings")
+}
+
+model AdminUser {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String   @map("password_hash")
+  fullName     String   @map("full_name")
+  role         String   @default("ADMIN")
+  createdAt    DateTime @default(now()) @map("created_at")
+  updatedAt    DateTime @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}

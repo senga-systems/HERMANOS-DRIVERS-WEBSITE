@@ -1,0 +1,24 @@
+import { PrismaClient } from '@prisma/client';
+
+/**
+ * Database client singleton.
+ * Prevents multiple instances of PrismaClient in development environments
+ * and manages connection pooling for PostgreSQL.
+ */
+
+let prisma;
+
+if (process.env.NODE_ENV === 'production') {
+  prisma = new PrismaClient({
+    log: ['error', 'warn'],
+  });
+} else {
+  if (!global.__prisma) {
+    global.__prisma = new PrismaClient({
+      log: ['query', 'info', 'warn', 'error'],
+    });
+  }
+  prisma = global.__prisma;
+}
+
+export default prisma;
