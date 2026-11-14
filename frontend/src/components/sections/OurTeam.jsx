@@ -35,6 +35,7 @@ const TEAM_MEMBERS = [
 ];
 
 export default function OurTeam() {
+  // Center active index defaults to 2 (Taylor Jones)
   const [activeIndex, setActiveIndex] = useState(2);
 
   const handlePrev = () => {
@@ -46,18 +47,18 @@ export default function OurTeam() {
   };
 
   return (
-    <section id="team" className="py-20 bg-[#d9d9d9] text-[#070c32]">
-      <div className="max-w-6xl mx-auto px-4 sm:px-8">
-        {/* Top Left Badge matching design */}
-        <div className="mb-10 text-left">
-          <span className="inline-flex items-center gap-2 bg-[#f19e02] text-[#070c32] font-bold text-xs uppercase px-4 py-1.5 rounded-full shadow-sm">
-            <span>Our Team</span>
-            <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
+    <section id="team" className="py-16 sm:py-24 bg-[#d9d9d9] text-[#070c32] overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8">
+        {/* Top Left Badge exactly matching the screenshot */}
+        <div className="mb-10 sm:mb-14 text-left">
+          <span className="inline-flex items-center gap-2 bg-[#f19e02] text-[#070c32] font-black text-xs uppercase px-5 py-2 rounded-full shadow-sm tracking-wide">
+            <span>OUR TEAM</span>
+            <ArrowRight className="w-3.5 h-3.5 stroke-[3]" />
           </span>
         </div>
 
-        {/* 5 Members Carousel / Grid */}
-        <div className="flex items-end justify-center gap-3 sm:gap-6 overflow-x-auto pb-6 pt-4 no-scrollbar">
+        {/* 5 Arch Members Container - Mobile Friendly Horizontal Swipe / Center Layout */}
+        <div className="flex items-end justify-start sm:justify-center gap-3 sm:gap-6 lg:gap-8 overflow-x-auto pb-8 pt-8 px-2 no-scrollbar snap-x snap-mandatory">
           {TEAM_MEMBERS.map((member, idx) => {
             const isActive = idx === activeIndex;
 
@@ -65,61 +66,75 @@ export default function OurTeam() {
               <div
                 key={member.id}
                 onClick={() => setActiveIndex(idx)}
-                className={`cursor-pointer transition-all duration-300 transform flex flex-col items-center flex-shrink-0 ${
+                className={`cursor-pointer transition-all duration-300 transform flex flex-col items-center flex-shrink-0 snap-center select-none ${
                   isActive
-                    ? 'scale-105 z-20 opacity-100'
-                    : 'scale-95 opacity-80 hover:opacity-100 grayscale hover:grayscale-0'
+                    ? 'scale-105 sm:scale-110 z-20 opacity-100'
+                    : 'scale-90 sm:scale-95 opacity-80 hover:opacity-100 grayscale hover:grayscale-0'
                 }`}
-                style={{ width: isActive ? '210px' : '170px' }}
+                style={{
+                  width: isActive ? '210px' : '160px',
+                }}
               >
-                {/* Arch-shaped Portrait Frame */}
-                <div
-                  className={`relative w-full aspect-[3/4.2] rounded-t-full rounded-b-2xl overflow-hidden shadow-lg transition-all duration-300 bg-gray-400 ${
-                    isActive ? 'ring-2 ring-gray-400 shadow-xl' : ''
-                  }`}
-                >
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover object-top"
-                  />
-
-                  {/* Active member social overlay buttons */}
+                {/* Outer Framing Arch (Shown for active member as seen in screenshot) */}
+                <div className="relative w-full flex flex-col items-center">
+                  {/* Subtle outer arch wireframe line matching the screenshot */}
                   {isActive && (
-                    <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center gap-1.5">
-                      <div className="bg-white/90 backdrop-blur-md rounded-full px-2.5 py-1 flex items-center gap-2 shadow-md">
-                        <a
-                          href="#facebook"
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-5 h-5 rounded-full bg-gray-200 hover:bg-[#070c32] hover:text-white text-gray-700 flex items-center justify-center transition"
-                          aria-label="Facebook"
-                        >
-                          <Facebook className="w-3 h-3" />
-                        </a>
-                        <a
-                          href="#linkedin"
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-5 h-5 rounded-full bg-gray-200 hover:bg-[#070c32] hover:text-white text-gray-700 flex items-center justify-center transition"
-                          aria-label="LinkedIn"
-                        >
-                          <Linkedin className="w-3 h-3" />
-                        </a>
-                        <a
-                          href="#twitter"
-                          onClick={(e) => e.stopPropagation()}
-                          className="w-5 h-5 rounded-full bg-gray-200 hover:bg-[#070c32] hover:text-white text-gray-700 flex items-center justify-center transition"
-                          aria-label="Twitter / X"
-                        >
-                          <Twitter className="w-3 h-3" />
-                        </a>
-                      </div>
-                    </div>
+                    <div className="absolute -inset-2.5 rounded-t-full border border-gray-400/70 pointer-events-none -top-4" />
                   )}
+
+                  {/* Main Arch-shaped Portrait Frame */}
+                  <div
+                    className={`relative w-full aspect-[3/4.2] rounded-t-full rounded-b-xl overflow-hidden shadow-xl transition-all duration-300 bg-gray-400 ${
+                      isActive ? 'shadow-2xl ring-1 ring-gray-400' : ''
+                    }`}
+                  >
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="w-full h-full object-cover object-top pointer-events-none"
+                    />
+
+                    {/* Active member social overlay buttons matching screenshot */}
+                    {isActive && (
+                      <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center gap-1.5 z-10">
+                        <div className="bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2.5 shadow-md border border-gray-100">
+                          <a
+                            href="#facebook"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-gray-700 hover:text-[#070c32] transition"
+                            aria-label="Facebook"
+                          >
+                            <Facebook className="w-3.5 h-3.5" />
+                          </a>
+                          <a
+                            href="#linkedin"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-gray-700 hover:text-[#070c32] transition"
+                            aria-label="LinkedIn"
+                          >
+                            <Linkedin className="w-3.5 h-3.5" />
+                          </a>
+                          <a
+                            href="#twitter"
+                            onClick={(e) => e.stopPropagation()}
+                            className="text-gray-700 hover:text-[#070c32] transition"
+                            aria-label="Twitter / X"
+                          >
+                            <Twitter className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
 
                 {/* Member Name & Subtitle */}
-                <div className="text-center mt-3">
-                  <h3 className="font-bold text-sm sm:text-base text-[#070c32]">
+                <div className="text-center mt-3 sm:mt-4">
+                  <h3
+                    className={`font-black tracking-tight transition-colors ${
+                      isActive ? 'text-base sm:text-lg text-[#070c32]' : 'text-xs sm:text-sm text-gray-800'
+                    }`}
+                  >
                     {member.name}
                   </h3>
                   {isActive && (
@@ -133,33 +148,33 @@ export default function OurTeam() {
           })}
         </div>
 
-        {/* Carousel Slider Controls: Track on left/center, Arrows on right */}
+        {/* Carousel Slider Controls: Horizontal Track on left, Arrows on right */}
         <div className="flex items-center justify-between gap-4 mt-8 pt-4 border-t border-gray-400/30 max-w-4xl mx-auto">
-          {/* Slider track indicator line */}
-          <div className="flex-1 max-w-xs h-1.5 bg-gray-300 rounded-full overflow-hidden">
+          {/* Slider track line with active progress bar */}
+          <div className="flex-1 max-w-xs sm:max-w-md h-1.5 bg-gray-300 rounded-full overflow-hidden">
             <div
-              className="h-full bg-gray-500 rounded-full transition-all duration-300"
+              className="h-full bg-gray-600 rounded-full transition-all duration-300"
               style={{
                 width: `${((activeIndex + 1) / TEAM_MEMBERS.length) * 100}%`,
               }}
             />
           </div>
 
-          {/* Left and Right navigation arrows */}
+          {/* Left and Right navigation buttons */}
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
-              className="w-8 h-8 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center transition active:scale-95 shadow-sm"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center transition active:scale-95 shadow-sm"
               aria-label="Previous team member"
             >
-              <ChevronLeft className="w-4 h-4" />
+              <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button
               onClick={handleNext}
-              className="w-8 h-8 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center transition active:scale-95 shadow-sm"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center transition active:scale-95 shadow-sm"
               aria-label="Next team member"
             >
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
         </div>

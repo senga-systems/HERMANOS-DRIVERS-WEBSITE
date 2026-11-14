@@ -9,15 +9,30 @@ const SERVICE_OPTIONS = [
   { value: 'VEHICLE_COLLECTION', label: 'Vehicle Collection & Doorstep Handover' },
 ];
 
-export default function BookingModal({ isOpen, onClose }) {
+export default function BookingModal({ isOpen, onClose, initialService = '' }) {
+  const mapInitialService = (title) => {
+    if (!title) return 'VEHICLE_DELIVERY';
+    const t = title.toLowerCase();
+    if (t.includes('long')) return 'LONG_DISTANCE';
+    if (t.includes('private') || t.includes('personal')) return 'PRIVATE_DRIVING';
+    if (t.includes('collection')) return 'VEHICLE_COLLECTION';
+    return 'VEHICLE_DELIVERY';
+  };
+
   const [formData, setFormData] = useState({
     customerName: '',
     phoneNumber: '',
-    serviceType: 'VEHICLE_DELIVERY',
+    serviceType: mapInitialService(initialService),
     pickupLocation: '',
     dropoffLocation: '',
     notes: '',
   });
+
+  React.useEffect(() => {
+    if (initialService) {
+      setFormData((prev) => ({ ...prev, serviceType: mapInitialService(initialService) }));
+    }
+  }, [initialService]);
 
   const [loading, setLoading] = useState(false);
   const [successData, setSuccessData] = useState(null);

@@ -2,16 +2,23 @@ import React from 'react';
 import { Facebook, Twitter, Linkedin, Youtube } from 'lucide-react';
 import Logo from '../common/Logo';
 
-export default function Footer({ onOpenBooking }) {
+export default function Footer({ onOpenBooking, onSelectTab }) {
+  const handleLink = (tab) => {
+    if (onSelectTab) {
+      onSelectTab(tab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <footer id="contact" className="bg-[#070c32] text-white pt-14 pb-8">
+    <footer id="contact" className="bg-[#070c32] text-white pt-14 pb-8 border-t border-white/10">
       <div className="max-w-6xl mx-auto px-4 sm:px-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10 border-b border-white/10">
           {/* Brand Column (Span 4) */}
           <div className="lg:col-span-4 space-y-3">
-            <a href="#home">
+            <button onClick={() => handleLink('home')} className="text-left focus:outline-none">
               <Logo />
-            </a>
+            </button>
 
             <p className="text-gray-300 text-xs sm:text-sm leading-relaxed max-w-xs pt-1">
               Hermanos Drivers - Your Journey is Our Responsibility!
@@ -55,31 +62,54 @@ export default function Footer({ onOpenBooking }) {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">
               Quick Links
             </h4>
-            <ul className="space-y-1.5 text-xs text-gray-300">
+            <ul className="space-y-2 text-xs text-gray-300">
               <li>
-                <a href="#home" className="hover:text-[#f19e02] transition-colors">
+                <button
+                  onClick={() => handleLink('home')}
+                  className="hover:text-[#f19e02] transition-colors text-left"
+                >
                   Home
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#about" className="hover:text-[#f19e02] transition-colors">
+                <button
+                  onClick={() => handleLink('about')}
+                  className="hover:text-[#f19e02] transition-colors text-left"
+                >
                   About
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#services" className="hover:text-[#f19e02] transition-colors">
+                <button
+                  onClick={() => handleLink('services')}
+                  className="hover:text-[#f19e02] transition-colors text-left"
+                >
                   Services
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#team" className="hover:text-[#f19e02] transition-colors">
+                <button
+                  onClick={() => handleLink('team')}
+                  className="hover:text-[#f19e02] transition-colors text-left"
+                >
                   Our Team
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#contact" className="hover:text-[#f19e02] transition-colors">
+                <button
+                  onClick={() => handleLink('location')}
+                  className="hover:text-[#f19e02] transition-colors text-left"
+                >
+                  Location
+                </button>
+              </li>
+              <li>
+                <button
+                  onClick={() => handleLink('contact')}
+                  className="hover:text-[#f19e02] transition-colors text-left"
+                >
                   Contact
-                </a>
+                </button>
               </li>
             </ul>
           </div>
@@ -89,10 +119,10 @@ export default function Footer({ onOpenBooking }) {
             <h4 className="text-xs font-bold uppercase tracking-wider text-white mb-3">
               Our Services
             </h4>
-            <ul className="space-y-1.5 text-xs text-gray-300">
+            <ul className="space-y-2 text-xs text-gray-300">
               <li>
                 <button
-                  onClick={onOpenBooking}
+                  onClick={() => handleLink('services')}
                   className="hover:text-[#f19e02] transition-colors text-left"
                 >
                   Vehicle Delivery
@@ -100,7 +130,7 @@ export default function Footer({ onOpenBooking }) {
               </li>
               <li>
                 <button
-                  onClick={onOpenBooking}
+                  onClick={() => handleLink('services')}
                   className="hover:text-[#f19e02] transition-colors text-left"
                 >
                   Long Distance Trips
@@ -108,7 +138,7 @@ export default function Footer({ onOpenBooking }) {
               </li>
               <li>
                 <button
-                  onClick={onOpenBooking}
+                  onClick={() => handleLink('services')}
                   className="hover:text-[#f19e02] transition-colors text-left"
                 >
                   Personal & Private Driving
@@ -116,7 +146,7 @@ export default function Footer({ onOpenBooking }) {
               </li>
               <li>
                 <button
-                  onClick={onOpenBooking}
+                  onClick={() => handleLink('services')}
                   className="hover:text-[#f19e02] transition-colors text-left"
                 >
                   Vehicle Collection
@@ -134,6 +164,9 @@ export default function Footer({ onOpenBooking }) {
               <li>Lilongwe</li>
               <li>Blantyre</li>
               <li>Mzuzu</li>
+              <li className="pt-1 text-[#f19e02] text-[11px] font-semibold">
+                + Dar es Salaam Route
+              </li>
             </ul>
           </div>
         </div>
