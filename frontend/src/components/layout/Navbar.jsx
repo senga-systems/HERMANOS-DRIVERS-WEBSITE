@@ -45,11 +45,15 @@ export default function Navbar({ onOpenBooking, activeTab = 'home', onSelectTab 
             </a>
           </div>
 
-          {/* Action Button */}
+          {/* Action Button: Get a Quote Section */}
           <div className="flex items-center flex-shrink-0">
             <button
-              onClick={onOpenBooking}
-              className="bg-[#070c32] hover:bg-[#04081e] text-white font-bold px-3 sm:px-4 py-1.5 rounded text-xs transition duration-200 shadow-sm active:scale-95"
+              onClick={() => handleNavClick('quote')}
+              className={`${
+                activeTab === 'quote'
+                  ? 'bg-white text-[#070c32] font-black ring-2 ring-[#070c32] shadow-md'
+                  : 'bg-[#070c32] hover:bg-[#04081e] text-white'
+              } font-bold px-3 sm:px-4 py-1.5 rounded text-xs transition duration-200 shadow-sm active:scale-95`}
             >
               Get a Quote
             </button>
@@ -130,13 +134,14 @@ export default function Navbar({ onOpenBooking, activeTab = 'home', onSelectTab 
 
             <div className="pt-3 px-1">
               <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenBooking();
-                }}
-                className="w-full bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-black py-3 rounded-lg text-sm shadow-md transition active:scale-95"
+                onClick={() => handleNavClick('quote')}
+                className={`w-full ${
+                  activeTab === 'quote'
+                    ? 'bg-white text-[#070c32] ring-2 ring-[#070c32]'
+                    : 'bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32]'
+                } font-black py-3 rounded-lg text-sm shadow-md transition active:scale-95`}
               >
-                Get a Quote / Hire A Driver
+                Get a Quote / Book A Driver
               </button>
             </div>
           </div>

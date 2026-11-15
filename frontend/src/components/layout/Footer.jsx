@@ -111,6 +111,14 @@ export default function Footer({ onOpenBooking, onSelectTab }) {
                   Contact
                 </button>
               </li>
+              <li>
+                <button
+                  onClick={() => handleLink('quote')}
+                  className="text-[#f19e02] hover:underline transition-colors text-left font-semibold"
+                >
+                  Get a Quote
+                </button>
+              </li>
             </ul>
           </div>
 

@@ -14,11 +14,18 @@ import ServicesPage from './components/pages/ServicesPage';
 import TeamPage from './components/pages/TeamPage';
 import LocationPage from './components/pages/LocationPage';
 import ContactPage from './components/pages/ContactPage';
+import QuotePage from './components/pages/QuotePage';
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('');
+
+  const navigateToQuote = (serviceName = '') => {
+    setSelectedService(serviceName);
+    setActiveTab('quote');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
   const openBookingModal = (serviceName = '') => {
     setSelectedService(serviceName);
@@ -41,7 +48,7 @@ export default function App() {
       <Navbar
         activeTab={activeTab}
         onSelectTab={handleSelectTab}
-        onOpenBooking={() => openBookingModal()}
+        onOpenBooking={() => navigateToQuote()}
       />
 
       {/* Main Content Sections Based on Active Navigation Tab */}
@@ -49,29 +56,29 @@ export default function App() {
         {activeTab === 'home' && (
           <div className="animate-fadeIn">
             {/* Hero Section with Alternating Background Images and Texts */}
-            <HeroSlider onOpenBooking={() => openBookingModal()} />
+            <HeroSlider onOpenBooking={() => navigateToQuote()} />
 
             {/* Why Choose Us Section */}
             <WhyChooseUs onLearnMore={() => handleSelectTab('about')} />
 
             {/* Our Services 4-Card Section */}
             <OurServices
-              onSelectService={(serviceTitle) => openBookingModal(serviceTitle)}
+              onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
             />
 
             {/* Our Team Arch Carousel Section */}
             <OurTeam />
 
             {/* Hire A Driver Call-To-Action Banner */}
-            <HireDriverBanner onOpenBooking={() => openBookingModal()} />
+            <HireDriverBanner onOpenBooking={() => navigateToQuote()} />
           </div>
         )}
 
-        {/* Dedicated About Section / View */}
+        {/* Dedicated About Section / View (Team arch removed) */}
         {activeTab === 'about' && (
           <div className="animate-fadeIn">
             <AboutPage
-              onOpenBooking={() => openBookingModal()}
+              onOpenBooking={() => navigateToQuote()}
               onNavigate={handleSelectTab}
             />
           </div>
@@ -81,8 +88,8 @@ export default function App() {
         {activeTab === 'services' && (
           <div className="animate-fadeIn">
             <ServicesPage
-              onOpenBooking={() => openBookingModal()}
-              onSelectService={(serviceTitle) => openBookingModal(serviceTitle)}
+              onOpenBooking={() => navigateToQuote()}
+              onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
             />
           </div>
         )}
@@ -90,28 +97,38 @@ export default function App() {
         {/* Dedicated Team Section / View */}
         {activeTab === 'team' && (
           <div className="animate-fadeIn">
-            <TeamPage onOpenBooking={() => openBookingModal()} />
+            <TeamPage onOpenBooking={() => navigateToQuote()} />
           </div>
         )}
 
         {/* Dedicated Location Section / View */}
         {activeTab === 'location' && (
           <div className="animate-fadeIn">
-            <LocationPage onOpenBooking={() => openBookingModal()} />
+            <LocationPage onOpenBooking={() => navigateToQuote()} />
           </div>
         )}
 
         {/* Dedicated Contact Section / View */}
         {activeTab === 'contact' && (
           <div className="animate-fadeIn">
-            <ContactPage onOpenBooking={() => openBookingModal()} />
+            <ContactPage onOpenBooking={() => navigateToQuote()} />
+          </div>
+        )}
+
+        {/* Dedicated Get a Quote Section / View */}
+        {activeTab === 'quote' && (
+          <div className="animate-fadeIn">
+            <QuotePage
+              initialService={selectedService}
+              onNavigate={handleSelectTab}
+            />
           </div>
         )}
       </main>
 
       {/* Footer */}
       <Footer
-        onOpenBooking={() => openBookingModal()}
+        onOpenBooking={() => navigateToQuote()}
         onSelectTab={handleSelectTab}
       />
 

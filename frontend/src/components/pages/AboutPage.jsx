@@ -1,6 +1,5 @@
 import React from 'react';
 import { ShieldCheck, Award, Clock, MapPin, CheckCircle2, ArrowRight, Phone, Car } from 'lucide-react';
-import OurTeam from '../sections/OurTeam';
 import HireDriverBanner from '../sections/HireDriverBanner';
 
 export default function AboutPage({ onOpenBooking, onNavigate }) {
@@ -165,10 +164,7 @@ export default function AboutPage({ onOpenBooking, onNavigate }) {
         </div>
       </section>
 
-      {/* 4. Our Team Section (The Arch Design) */}
-      <OurTeam />
-
-      {/* 5. Call To Action Banner */}
+      {/* 4. Call To Action Banner */}
       <HireDriverBanner onOpenBooking={onOpenBooking} />
     </div>
   );
