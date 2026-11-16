@@ -95,7 +95,7 @@ export default function LocationPage({ onOpenBooking }) {
                 <div>
                   <button
                     onClick={onOpenBooking}
-                    className="w-full inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold py-2.5 rounded text-sm transition shadow-sm"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold py-2.5 rounded text-sm shadow-sm active:scale-95 transition-transform duration-200"
                   >
                     <span>Request a Driver for {hub.city}</span>
                     <ArrowRight className="w-4 h-4 stroke-[2.5]" />

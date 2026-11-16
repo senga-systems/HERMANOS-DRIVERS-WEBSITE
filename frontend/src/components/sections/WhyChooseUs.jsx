@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import FadeUp from '../common/FadeUp';
 
 export default function WhyChooseUs({ onLearnMore }) {
   return (
@@ -7,7 +8,7 @@ export default function WhyChooseUs({ onLearnMore }) {
       <div className="max-w-6xl mx-auto px-4 sm:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column: Driver Photo */}
-          <div className="lg:col-span-5 flex justify-center">
+          <FadeUp className="lg:col-span-5 flex justify-center">
             <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-300">
               <img
                 src="/images/why-us/driver-enhanced.png"
@@ -15,10 +16,10 @@ export default function WhyChooseUs({ onLearnMore }) {
                 className="w-full h-[380px] sm:h-[420px] object-cover object-center"
               />
             </div>
-          </div>
+          </FadeUp>
 
           {/* Right Column: Copy & Action */}
-          <div className="lg:col-span-7">
+          <FadeUp delay={0.2} className="lg:col-span-7">
             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black text-[#070c32] tracking-tight mb-6">
               WHY CHOOSE US
             </h2>
@@ -30,13 +31,13 @@ export default function WhyChooseUs({ onLearnMore }) {
             <div>
               <button
                 onClick={onLearnMore}
-                className="inline-flex items-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3 rounded text-sm sm:text-base shadow-md transition-all duration-200 active:scale-95"
+                className="inline-flex items-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3 rounded text-sm sm:text-base shadow-md active:scale-95 transition-transform duration-200"
               >
                 <span>See More About Us</span>
                 <ArrowRight className="w-4 h-4 stroke-[2.5]" />
               </button>
             </div>
-          </div>
+          </FadeUp>
         </div>
       </div>
     </section>

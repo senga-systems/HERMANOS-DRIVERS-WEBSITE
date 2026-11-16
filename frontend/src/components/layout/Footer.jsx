@@ -16,7 +16,7 @@ export default function Footer({ onOpenBooking, onSelectTab }) {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10 border-b border-white/10">
           {/* Brand Column (Span 4) */}
           <div className="lg:col-span-4 space-y-3">
-            <button onClick={() => handleLink('home')} className="text-left focus:outline-none">
+            <button onClick={() => handleLink('home')} className="text-left focus:outline-none active:scale-95 transition-transform">
               <Logo />
             </button>
 
@@ -28,28 +28,28 @@ export default function Footer({ onOpenBooking, onSelectTab }) {
             <div className="flex items-center gap-2.5 pt-2">
               <a
                 href="#facebook"
-                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs"
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs active:scale-95 transition-transform"
                 aria-label="Facebook"
               >
                 <Facebook className="w-3.5 h-3.5" />
               </a>
               <a
                 href="#twitter"
-                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs"
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs active:scale-95 transition-transform"
                 aria-label="Twitter / X"
               >
                 <Twitter className="w-3.5 h-3.5" />
               </a>
               <a
                 href="#linkedin"
-                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs"
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs active:scale-95 transition-transform"
                 aria-label="LinkedIn"
               >
                 <Linkedin className="w-3.5 h-3.5" />
               </a>
               <a
                 href="#youtube"
-                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs"
+                className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs active:scale-95 transition-transform"
                 aria-label="YouTube"
               >
                 <Youtube className="w-3.5 h-3.5" />

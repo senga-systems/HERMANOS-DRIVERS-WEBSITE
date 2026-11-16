@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 // Hero slide configurations:
 // Background images and texts alternate together.
-// To change or add images in the future, simply update the image files in
-// frontend/public/images/hero/ or change the bgImage URLs below.
 const HERO_SLIDES = [
   {
     id: 1,
@@ -58,7 +57,7 @@ export default function HeroSlider({ onOpenBooking }) {
               backgroundImage: `url('${slide.bgImage}')`,
             }}
           >
-            {/* Deep navy gradient overlay on left for maximum text contrast matching Image 2 */}
+            {/* Deep navy gradient overlay on left for maximum text contrast */}
             <div className="absolute inset-0 bg-gradient-to-r from-[#070c32] via-[#070c32]/85 to-transparent sm:via-[#070c32]/80 sm:to-[#070c32]/30" />
           </div>
         );
@@ -75,10 +74,15 @@ export default function HeroSlider({ onOpenBooking }) {
       {/* 3. Hero Content */}
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-8 py-20 lg:py-28 w-full">
         <div className="max-w-2xl">
-          {/* Main Title (Constant) */}
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow">
+          {/* Main Title with subtle Framer Motion entrance animation on load */}
+          <motion.h1
+            initial={{ opacity: 0, y: 28 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, ease: [0.25, 0.1, 0.25, 1] }}
+            className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight mb-2 sm:mb-3 drop-shadow"
+          >
             HERMANOS DRIVERS
-          </h1>
+          </motion.h1>
 
           {/* Dynamic Alternating Sub-Headline & Paragraph Container */}
           <div className="relative min-h-[140px] sm:min-h-[130px] lg:min-h-[120px] mb-8 overflow-hidden">
@@ -113,7 +117,7 @@ export default function HeroSlider({ onOpenBooking }) {
             {/* Primary Action: Hire A Driver */}
             <button
               onClick={onOpenBooking}
-              className="inline-flex items-center justify-center gap-2.5 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3 rounded text-sm sm:text-base shadow-md transition-all duration-200 active:scale-95"
+              className="inline-flex items-center justify-center gap-2.5 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3 rounded text-sm sm:text-base shadow-md active:scale-95 transition-transform duration-200"
             >
               <span>Hire A Driver</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -122,7 +126,7 @@ export default function HeroSlider({ onOpenBooking }) {
             {/* Secondary Action: Explore Our Services */}
             <a
               href="#services"
-              className="inline-flex items-center justify-center gap-2.5 bg-[#070c32]/90 hover:bg-[#070c32] text-[#f19e02] border-2 border-[#f19e02] font-bold px-7 py-3 rounded text-sm sm:text-base transition-all duration-200 shadow-sm"
+              className="inline-flex items-center justify-center gap-2.5 bg-[#070c32]/90 hover:bg-[#070c32] text-[#f19e02] border-2 border-[#f19e02] font-bold px-7 py-3 rounded text-sm sm:text-base active:scale-95 transition-transform duration-200 shadow-sm"
             >
               <span>Explore Our Services</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -135,7 +139,7 @@ export default function HeroSlider({ onOpenBooking }) {
               <button
                 key={dotIdx}
                 onClick={() => setCurrentSlide(dotIdx)}
-                className={`h-1.5 rounded-full transition-all duration-500 ${
+                className={`h-1.5 rounded-full transition-all duration-500 active:scale-95 ${
                   dotIdx === currentSlide
                     ? 'w-8 bg-[#f19e02]'
                     : 'w-2 bg-white/40 hover:bg-white/70'
@@ -157,7 +161,6 @@ export default function HeroSlider({ onOpenBooking }) {
           preserveAspectRatio="none"
           className="relative block w-full h-8 sm:h-12 lg:h-16 text-[#d9d9d9] fill-current"
         >
-          {/* Smooth upward convex curve matching Image 2 */}
           <path d="M 0,65 Q 500,-10 1000,65 L 1000,65 L 0,65 Z" />
         </svg>
       </div>

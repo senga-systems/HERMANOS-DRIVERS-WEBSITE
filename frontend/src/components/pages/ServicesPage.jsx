@@ -115,7 +115,7 @@ export default function ServicesPage({ onOpenBooking, onSelectService }) {
                       if (onSelectService) onSelectService(service.title);
                       else onOpenBooking();
                     }}
-                    className="inline-flex items-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-6 py-3 rounded text-sm shadow-md transition-all active:scale-95"
+                    className="inline-flex items-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-6 py-3 rounded text-sm shadow-md active:scale-95 transition-transform duration-200"
                   >
                     <span>Book {service.title}</span>
                     <ArrowRight className="w-4 h-4 stroke-[2.5]" />

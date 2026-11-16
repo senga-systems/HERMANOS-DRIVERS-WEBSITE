@@ -275,7 +275,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                         )}).%20Please%20confirm%20my%20rate%20and%20driver.`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#39b54a] hover:bg-[#2ea33e] text-white font-bold px-7 py-3.5 rounded-lg text-sm shadow-md transition active:scale-95"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#39b54a] hover:bg-[#2ea33e] text-white font-bold px-7 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
                       >
                         <MessageSquare className="w-5 h-5" />
                         <span>Chat With Dispatch on WhatsApp</span>
@@ -283,7 +283,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
 
                       <a
                         href="tel:+265997096922"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3.5 rounded-lg text-sm shadow-md transition active:scale-95"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
                       >
                         <Phone className="w-4 h-4" />
                         <span>Call +265 997 096 922</span>
@@ -293,7 +293,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                     <div className="pt-6">
                       <button
                         onClick={handleReset}
-                        className="text-xs text-gray-400 hover:text-white underline underline-offset-4 transition"
+                        className="text-xs text-gray-400 hover:text-white underline underline-offset-4 active:scale-95 transition-transform duration-200"
                       >
                         Submit another trip or quote request
                       </button>
@@ -338,8 +338,8 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                             className={`w-full px-4 py-3 rounded-xl bg-[#04081e] border ${
                               fieldErrors.customerName
                                 ? 'border-red-500 ring-1 ring-red-500'
-                                : 'border-white/20 focus:border-[#f19e02]'
-                            } text-white text-sm outline-none transition placeholder-gray-500`}
+                                : 'border-white/20'
+                            } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500`}
                             required
                           />
                           {fieldErrors.customerName && (
@@ -360,8 +360,8 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                             className={`w-full px-4 py-3 rounded-xl bg-[#04081e] border ${
                               fieldErrors.phoneNumber
                                 ? 'border-red-500 ring-1 ring-red-500'
-                                : 'border-white/20 focus:border-[#f19e02]'
-                            } text-white text-sm outline-none transition placeholder-gray-500`}
+                                : 'border-white/20'
+                            } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500`}
                             required
                           />
                           {fieldErrors.phoneNumber && (
@@ -379,7 +379,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                           name="serviceType"
                           value={formData.serviceType}
                           onChange={handleChange}
-                          className="w-full px-4 py-3 rounded-xl bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                          className="w-full px-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                         >
                           {SERVICE_OPTIONS.map((opt) => (
                             <option key={opt.value} value={opt.value} className="bg-[#070c32] text-white py-2">
@@ -405,7 +405,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                               value={formData.pickupLocation}
                               onChange={handleChange}
                               placeholder="e.g. Lilongwe or Dar es Salaam"
-                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition placeholder-gray-500"
+                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500"
                             />
                             <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                           </div>
@@ -422,7 +422,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                               value={formData.dropoffLocation}
                               onChange={handleChange}
                               placeholder="e.g. Blantyre, Mzuzu or Zomba"
-                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition placeholder-gray-500"
+                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500"
                             />
                             <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                           </div>
@@ -440,7 +440,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                               name="vehicleType"
                               value={formData.vehicleType}
                               onChange={handleChange}
-                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                             >
                               {VEHICLE_TYPES.map((v) => (
                                 <option key={v} value={v} className="bg-[#070c32] text-white">
@@ -462,7 +462,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                               name="travelDate"
                               value={formData.travelDate}
                               onChange={handleChange}
-                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                             />
                             <Calendar className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
                           </div>
@@ -480,7 +480,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                           value={formData.notes}
                           onChange={handleChange}
                           placeholder="Vehicle make/model, automatic or manual transmission, specific stops, port paperwork status, etc."
-                          className="w-full px-4 py-3 rounded-xl bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition placeholder-gray-500"
+                          className="w-full px-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500"
                         />
                       </div>
 
@@ -497,7 +497,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                         <button
                           type="submit"
                           disabled={loading}
-                          className="w-full bg-[#f19e02] hover:bg-[#d98c00] disabled:opacity-50 text-[#070c32] font-black py-4 rounded-xl text-base flex items-center justify-center gap-2 shadow-xl transition active:scale-[0.99]"
+                          className="w-full bg-[#f19e02] hover:bg-[#d98c00] disabled:opacity-50 disabled:cursor-not-allowed text-[#070c32] font-black py-4 rounded-xl text-base flex items-center justify-center gap-2 shadow-xl active:scale-95 transition-transform duration-200"
                         >
                           {loading ? (
                             <>
@@ -506,7 +506,7 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                             </>
                           ) : (
                             <>
-                              <Send className="w-5 h-5" />
+                              <Send className="w-4 h-4" />
                               <span>Submit Request & Get Instant Quote</span>
                             </>
                           )}

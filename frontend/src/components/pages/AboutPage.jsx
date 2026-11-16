@@ -89,7 +89,7 @@ export default function AboutPage({ onOpenBooking, onNavigate }) {
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
                 <button
                   onClick={onOpenBooking}
-                  className="inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3 rounded text-sm sm:text-base shadow-md transition-all active:scale-95"
+                  className="inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3 rounded text-sm sm:text-base shadow-md active:scale-95 transition-transform duration-200"
                 >
                   <span>Hire A Driver Now</span>
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />
@@ -97,7 +97,7 @@ export default function AboutPage({ onOpenBooking, onNavigate }) {
 
                 <button
                   onClick={() => onNavigate('services')}
-                  className="inline-flex items-center justify-center gap-2 border-2 border-[#070c32] text-[#070c32] hover:bg-[#070c32] hover:text-white font-bold px-7 py-3 rounded text-sm sm:text-base transition-all"
+                  className="inline-flex items-center justify-center gap-2 border-2 border-[#070c32] text-[#070c32] hover:bg-[#070c32] hover:text-white font-bold px-7 py-3 rounded text-sm sm:text-base active:scale-95 transition-transform duration-200"
                 >
                   <span>View Our Services</span>
                   <ArrowRight className="w-4 h-4 stroke-[2.5]" />

@@ -1,5 +1,6 @@
 import React from 'react';
 import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const SERVICES_DATA = [
   {
@@ -56,6 +57,28 @@ const SERVICES_DATA = [
   },
 ];
 
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2,
+    },
+  },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 35 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: 'easeOut',
+    },
+  },
+};
+
 export default function OurServices({ onSelectService }) {
   return (
     <section id="services" className="py-20 lg:py-24 bg-[#070c32] text-white relative">
@@ -63,7 +86,7 @@ export default function OurServices({ onSelectService }) {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[300px] bg-blue-900/20 blur-[100px] pointer-events-none" />
 
       <div className="max-w-6xl mx-auto px-4 sm:px-8 relative z-10">
-        {/* Top Left Badge matching design */}
+        {/* Top Left Badge */}
         <div className="mb-10 text-left">
           <span className="inline-flex items-center gap-2 bg-[#f19e02] text-[#070c32] font-bold text-xs uppercase px-4 py-1.5 rounded-full shadow-sm">
             <span>Our Services</span>
@@ -71,13 +94,20 @@ export default function OurServices({ onSelectService }) {
           </span>
         </div>
 
-        {/* 4 Cards Horizontal Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        {/* 4 Cards Horizontal Grid with Staggered Framer Motion */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '-100px' }}
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
           {SERVICES_DATA.map((service) => (
-            <div
+            <motion.div
               key={service.id}
+              variants={cardVariants}
               onClick={() => onSelectService(service.title)}
-              className="group cursor-pointer bg-[#d9d9d9] hover:bg-white text-[#070c32] rounded-2xl p-7 text-center transition-all duration-300 hover:-translate-y-2 shadow-lg hover:shadow-2xl flex flex-col items-center justify-center min-h-[200px]"
+              className="group cursor-pointer bg-[#d9d9d9] hover:bg-white text-[#070c32] rounded-2xl p-7 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:scale-95 transition-transform flex flex-col items-center justify-center min-h-[200px] shadow-lg"
             >
               {/* Gray Square Icon Container */}
               <div className="w-16 h-16 rounded-xl bg-[#6b7280] text-white group-hover:bg-[#f19e02] group-hover:text-[#070c32] flex items-center justify-center mb-5 transition-colors duration-300 shadow-sm">
@@ -88,9 +118,9 @@ export default function OurServices({ onSelectService }) {
               <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#070c32] group-hover:text-black transition-colors">
                 {service.title}
               </h3>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );

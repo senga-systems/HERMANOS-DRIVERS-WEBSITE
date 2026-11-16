@@ -49,7 +49,7 @@ export default function OurTeam() {
   return (
     <section id="team" className="py-16 sm:py-24 bg-[#d9d9d9] text-[#070c32] overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        {/* Top Left Badge exactly matching the screenshot */}
+        {/* Top Left Badge */}
         <div className="mb-10 sm:mb-14 text-left">
           <span className="inline-flex items-center gap-2 bg-[#f19e02] text-[#070c32] font-black text-xs uppercase px-5 py-2 rounded-full shadow-sm tracking-wide">
             <span>OUR TEAM</span>
@@ -66,25 +66,25 @@ export default function OurTeam() {
               <div
                 key={member.id}
                 onClick={() => setActiveIndex(idx)}
-                className={`cursor-pointer transition-all duration-300 transform flex flex-col items-center flex-shrink-0 snap-center select-none ${
+                className={`cursor-pointer flex flex-col items-center flex-shrink-0 snap-center select-none grayscale hover:grayscale-0 hover:scale-105 transition-all duration-500 ${
                   isActive
-                    ? 'scale-105 sm:scale-110 z-20 opacity-100'
-                    : 'scale-90 sm:scale-95 opacity-80 hover:opacity-100 grayscale hover:grayscale-0'
+                    ? 'scale-105 sm:scale-110 z-20 opacity-100 grayscale-0'
+                    : 'scale-90 sm:scale-95 opacity-80 hover:opacity-100'
                 }`}
                 style={{
                   width: isActive ? '210px' : '160px',
                 }}
               >
-                {/* Outer Framing Arch (Shown for active member as seen in screenshot) */}
+                {/* Outer Framing Arch */}
                 <div className="relative w-full flex flex-col items-center">
-                  {/* Subtle outer arch wireframe line matching the screenshot */}
+                  {/* Subtle outer arch wireframe line matching the design */}
                   {isActive && (
                     <div className="absolute -inset-2.5 rounded-t-full border border-gray-400/70 pointer-events-none -top-4" />
                   )}
 
                   {/* Main Arch-shaped Portrait Frame */}
                   <div
-                    className={`relative w-full aspect-[3/4.2] rounded-t-full rounded-b-xl overflow-hidden shadow-xl transition-all duration-300 bg-gray-400 ${
+                    className={`relative w-full aspect-[3/4.2] rounded-t-full rounded-b-xl overflow-hidden shadow-xl transition-all duration-500 bg-gray-400 ${
                       isActive ? 'shadow-2xl ring-1 ring-gray-400' : ''
                     }`}
                   >
@@ -94,14 +94,14 @@ export default function OurTeam() {
                       className="w-full h-full object-cover object-top pointer-events-none"
                     />
 
-                    {/* Active member social overlay buttons matching screenshot */}
+                    {/* Active member social overlay buttons */}
                     {isActive && (
                       <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center gap-1.5 z-10">
                         <div className="bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2.5 shadow-md border border-gray-100">
                           <a
                             href="#facebook"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-gray-700 hover:text-[#070c32] transition"
+                            className="text-gray-700 hover:text-[#070c32] active:scale-95 transition-transform"
                             aria-label="Facebook"
                           >
                             <Facebook className="w-3.5 h-3.5" />
@@ -109,7 +109,7 @@ export default function OurTeam() {
                           <a
                             href="#linkedin"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-gray-700 hover:text-[#070c32] transition"
+                            className="text-gray-700 hover:text-[#070c32] active:scale-95 transition-transform"
                             aria-label="LinkedIn"
                           >
                             <Linkedin className="w-3.5 h-3.5" />
@@ -117,7 +117,7 @@ export default function OurTeam() {
                           <a
                             href="#twitter"
                             onClick={(e) => e.stopPropagation()}
-                            className="text-gray-700 hover:text-[#070c32] transition"
+                            className="text-gray-700 hover:text-[#070c32] active:scale-95 transition-transform"
                             aria-label="Twitter / X"
                           >
                             <Twitter className="w-3.5 h-3.5" />
@@ -164,14 +164,14 @@ export default function OurTeam() {
           <div className="flex items-center gap-2">
             <button
               onClick={handlePrev}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center transition active:scale-95 shadow-sm"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center active:scale-95 transition-transform duration-200 shadow-sm"
               aria-label="Previous team member"
             >
               <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
             <button
               onClick={handleNext}
-              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center transition active:scale-95 shadow-sm"
+              className="w-8 h-8 sm:w-9 sm:h-9 rounded-full bg-gray-300 hover:bg-gray-400 text-gray-700 flex items-center justify-center active:scale-95 transition-transform duration-200 shadow-sm"
               aria-label="Next team member"
             >
               <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { MotionConfig, AnimatePresence, motion } from 'framer-motion';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HeroSlider from './components/sections/HeroSlider';
@@ -43,101 +44,147 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070c32] text-white flex flex-col font-sans selection:bg-[#f19e02] selection:text-[#070c32]">
-      {/* 1. Sticky Navigation Bar with active tab tracking & mobile-first drawer */}
-      <Navbar
-        activeTab={activeTab}
-        onSelectTab={handleSelectTab}
-        onOpenBooking={() => navigateToQuote()}
-      />
+    <MotionConfig reducedMotion="user">
+      <div className="min-h-screen bg-[#070c32] text-white flex flex-col font-sans selection:bg-[#f19e02] selection:text-[#070c32]">
+        {/* 1. Sticky Navigation Bar with active tab tracking & mobile-first drawer */}
+        <Navbar
+          activeTab={activeTab}
+          onSelectTab={handleSelectTab}
+          onOpenBooking={() => navigateToQuote()}
+        />
 
-      {/* Main Content Sections Based on Active Navigation Tab */}
-      <main className="flex-grow">
-        {activeTab === 'home' && (
-          <div className="animate-fadeIn">
-            {/* Hero Section with Alternating Background Images and Texts */}
-            <HeroSlider onOpenBooking={() => navigateToQuote()} />
+        {/* Main Content Sections with Framer Motion AnimatePresence Page Transitions */}
+        <main className="flex-grow">
+          <AnimatePresence mode="wait">
+            {activeTab === 'home' && (
+              <motion.div
+                key="home"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                {/* Hero Section with Alternating Background Images and Texts */}
+                <HeroSlider onOpenBooking={() => navigateToQuote()} />
 
-            {/* Why Choose Us Section */}
-            <WhyChooseUs onLearnMore={() => handleSelectTab('about')} />
+                {/* Why Choose Us Section */}
+                <WhyChooseUs onLearnMore={() => handleSelectTab('about')} />
 
-            {/* Our Services 4-Card Section */}
-            <OurServices
-              onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
-            />
+                {/* Our Services 4-Card Section */}
+                <OurServices
+                  onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
+                />
 
-            {/* Our Team Arch Carousel Section */}
-            <OurTeam />
+                {/* Our Team Arch Carousel Section */}
+                <OurTeam />
 
-            {/* Hire A Driver Call-To-Action Banner */}
-            <HireDriverBanner onOpenBooking={() => navigateToQuote()} />
-          </div>
-        )}
+                {/* Hire A Driver Call-To-Action Banner */}
+                <HireDriverBanner onOpenBooking={() => navigateToQuote()} />
+              </motion.div>
+            )}
 
-        {/* Dedicated About Section / View (Team arch removed) */}
-        {activeTab === 'about' && (
-          <div className="animate-fadeIn">
-            <AboutPage
-              onOpenBooking={() => navigateToQuote()}
-              onNavigate={handleSelectTab}
-            />
-          </div>
-        )}
+            {/* Dedicated About Section / View */}
+            {activeTab === 'about' && (
+              <motion.div
+                key="about"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <AboutPage
+                  onOpenBooking={() => navigateToQuote()}
+                  onNavigate={handleSelectTab}
+                />
+              </motion.div>
+            )}
 
-        {/* Dedicated Services Section / View */}
-        {activeTab === 'services' && (
-          <div className="animate-fadeIn">
-            <ServicesPage
-              onOpenBooking={() => navigateToQuote()}
-              onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
-            />
-          </div>
-        )}
+            {/* Dedicated Services Section / View */}
+            {activeTab === 'services' && (
+              <motion.div
+                key="services"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <ServicesPage
+                  onOpenBooking={() => navigateToQuote()}
+                  onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
+                />
+              </motion.div>
+            )}
 
-        {/* Dedicated Team Section / View */}
-        {activeTab === 'team' && (
-          <div className="animate-fadeIn">
-            <TeamPage onOpenBooking={() => navigateToQuote()} />
-          </div>
-        )}
+            {/* Dedicated Team Section / View */}
+            {activeTab === 'team' && (
+              <motion.div
+                key="team"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <TeamPage onOpenBooking={() => navigateToQuote()} />
+              </motion.div>
+            )}
 
-        {/* Dedicated Location Section / View */}
-        {activeTab === 'location' && (
-          <div className="animate-fadeIn">
-            <LocationPage onOpenBooking={() => navigateToQuote()} />
-          </div>
-        )}
+            {/* Dedicated Location Section / View */}
+            {activeTab === 'location' && (
+              <motion.div
+                key="location"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <LocationPage onOpenBooking={() => navigateToQuote()} />
+              </motion.div>
+            )}
 
-        {/* Dedicated Contact Section / View */}
-        {activeTab === 'contact' && (
-          <div className="animate-fadeIn">
-            <ContactPage onOpenBooking={() => navigateToQuote()} />
-          </div>
-        )}
+            {/* Dedicated Contact Section / View */}
+            {activeTab === 'contact' && (
+              <motion.div
+                key="contact"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <ContactPage onOpenBooking={() => navigateToQuote()} />
+              </motion.div>
+            )}
 
-        {/* Dedicated Get a Quote Section / View */}
-        {activeTab === 'quote' && (
-          <div className="animate-fadeIn">
-            <QuotePage
-              initialService={selectedService}
-              onNavigate={handleSelectTab}
-            />
-          </div>
-        )}
-      </main>
+            {/* Dedicated Get a Quote Section / View */}
+            {activeTab === 'quote' && (
+              <motion.div
+                key="quote"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.4 }}
+              >
+                <QuotePage
+                  initialService={selectedService}
+                  onNavigate={handleSelectTab}
+                />
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </main>
 
-      {/* Footer */}
-      <Footer
-        onOpenBooking={() => navigateToQuote()}
-        onSelectTab={handleSelectTab}
-      />
+        {/* Footer */}
+        <Footer
+          onOpenBooking={() => navigateToQuote()}
+          onSelectTab={handleSelectTab}
+        />
 
-      {/* Global Interactive Booking & Quote Modal */}
-      <BookingModal
-        isOpen={isBookingOpen}
-        onClose={closeBookingModal}
-        initialService={selectedService}
-      />
-    </div>
+        {/* Global Interactive Booking & Quote Modal */}
+        <BookingModal
+          isOpen={isBookingOpen}
+          onClose={closeBookingModal}
+          initialService={selectedService}
+        />
+      </div>
+    </MotionConfig>
   );
 }

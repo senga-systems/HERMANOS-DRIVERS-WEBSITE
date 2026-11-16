@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { X, CheckCircle, AlertCircle, Loader2, Send, Phone, MessageSquare } from 'lucide-react';
+import { X, CheckCircle, AlertCircle, Loader2, Send, MessageSquare } from 'lucide-react';
 import { bookingService } from '../../services/api';
 
 const SERVICE_OPTIONS = [
@@ -106,7 +106,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
         {/* Close Button */}
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 transition"
+          className="absolute top-4 right-4 text-gray-400 hover:text-white p-2 rounded-full hover:bg-white/10 active:scale-95 transition-transform duration-200"
           aria-label="Close booking modal"
         >
           <X className="w-5 h-5" />
@@ -132,14 +132,14 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                 )}%20under%20the%20name%20${encodeURIComponent(formData.customerName)}.`}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#39b54a] hover:bg-[#2ea33e] text-white font-bold px-6 py-3 rounded-lg text-sm shadow transition"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#39b54a] hover:bg-[#2ea33e] text-white font-bold px-6 py-3 rounded-lg text-sm shadow active:scale-95 transition-transform duration-200"
               >
                 <MessageSquare className="w-4 h-4" />
                 <span>Chat on WhatsApp Now</span>
               </a>
               <button
                 onClick={handleReset}
-                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg text-sm transition"
+                className="w-full sm:w-auto bg-white/10 hover:bg-white/20 text-white font-semibold px-6 py-3 rounded-lg text-sm active:scale-95 transition-transform duration-200"
               >
                 Done
               </button>
@@ -181,8 +181,8 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                   onChange={handleChange}
                   placeholder="e.g. Chisomo Banda"
                   className={`w-full px-4 py-2.5 rounded-lg bg-[#04081e] border ${
-                    fieldErrors.customerName ? 'border-red-500' : 'border-white/20 focus:border-[#f19e02]'
-                  } text-white text-sm outline-none transition`}
+                    fieldErrors.customerName ? 'border-red-500' : 'border-white/20'
+                  } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none`}
                   required
                 />
                 {fieldErrors.customerName && (
@@ -202,8 +202,8 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                   onChange={handleChange}
                   placeholder="e.g. +265 997 096 922"
                   className={`w-full px-4 py-2.5 rounded-lg bg-[#04081e] border ${
-                    fieldErrors.phoneNumber ? 'border-red-500' : 'border-white/20 focus:border-[#f19e02]'
-                  } text-white text-sm outline-none transition`}
+                    fieldErrors.phoneNumber ? 'border-red-500' : 'border-white/20'
+                  } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none`}
                   required
                 />
                 {fieldErrors.phoneNumber && (
@@ -220,7 +220,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                   name="serviceType"
                   value={formData.serviceType}
                   onChange={handleChange}
-                  className="w-full px-4 py-2.5 rounded-lg bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                  className="w-full px-4 py-2.5 rounded-lg bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                 >
                   {SERVICE_OPTIONS.map((opt) => (
                     <option key={opt.value} value={opt.value} className="bg-[#070c32] text-white">
@@ -242,7 +242,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                     value={formData.pickupLocation}
                     onChange={handleChange}
                     placeholder="e.g. Lilongwe or Dar es Salaam"
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                   />
                 </div>
                 <div>
@@ -255,7 +255,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                     value={formData.dropoffLocation}
                     onChange={handleChange}
                     placeholder="e.g. Blantyre or Mzuzu"
-                    className="w-full px-4 py-2.5 rounded-lg bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                    className="w-full px-4 py-2.5 rounded-lg bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                   />
                 </div>
               </div>
@@ -271,7 +271,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                   value={formData.notes}
                   onChange={handleChange}
                   placeholder="Vehicle make/model, preferred departure date, etc."
-                  className="w-full px-4 py-2 rounded-lg bg-[#04081e] border border-white/20 focus:border-[#f19e02] text-white text-sm outline-none transition"
+                  className="w-full px-4 py-2 rounded-lg bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                 />
               </div>
 
@@ -280,7 +280,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                 <button
                   type="submit"
                   disabled={loading}
-                  className="w-full bg-[#f19e02] hover:bg-[#d98c00] disabled:opacity-50 text-[#070c32] font-bold py-3.5 rounded-lg text-base flex items-center justify-center gap-2 shadow-lg transition active:scale-[0.99]"
+                  className="w-full bg-[#f19e02] hover:bg-[#d98c00] disabled:opacity-50 disabled:cursor-not-allowed text-[#070c32] font-bold py-3.5 rounded-lg text-base flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform duration-200"
                 >
                   {loading ? (
                     <>

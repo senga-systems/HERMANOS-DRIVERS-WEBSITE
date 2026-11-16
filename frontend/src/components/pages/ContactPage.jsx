@@ -142,7 +142,7 @@ export default function ContactPage({ onOpenBooking }) {
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                         placeholder="e.g. John Banda"
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-[#f19e02] outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                       />
                     </div>
                     <div>
@@ -155,7 +155,7 @@ export default function ContactPage({ onOpenBooking }) {
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         placeholder="e.g. +265 997 096 922"
-                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-[#f19e02] outline-none"
+                        className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                       />
                     </div>
                   </div>
@@ -169,7 +169,7 @@ export default function ContactPage({ onOpenBooking }) {
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       placeholder="e.g. yourname@email.com"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-[#f19e02] outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                     />
                   </div>
 
@@ -182,7 +182,7 @@ export default function ContactPage({ onOpenBooking }) {
                       value={formData.subject}
                       onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                       placeholder="e.g. Vehicle Delivery Quote from Dar es Salaam"
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-[#f19e02] outline-none"
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
                     />
                   </div>
 
@@ -195,13 +195,13 @@ export default function ContactPage({ onOpenBooking }) {
                       value={formData.message}
                       onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                       placeholder="Tell us about the vehicle, pickup location, destination, and preferred dates..."
-                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm focus:border-[#f19e02] outline-none resize-none"
+                      className="w-full px-3.5 py-2.5 rounded-lg border border-gray-300 text-sm transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none resize-none"
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-black py-3 rounded-lg text-sm shadow-md transition-all active:scale-95"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-black py-3 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
                   >
                     <span>Send Message</span>
                     <Send className="w-4 h-4 stroke-[2.5]" />

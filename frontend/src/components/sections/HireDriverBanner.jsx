@@ -28,14 +28,14 @@ export default function HireDriverBanner({ onOpenBooking }) {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-8">
             <button
               onClick={onOpenBooking}
-              className="w-full sm:w-auto bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-2.5 rounded text-sm shadow-md transition-all duration-200 active:scale-95"
+              className="w-full sm:w-auto bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-2.5 rounded text-sm shadow-md active:scale-95 transition-transform duration-200"
             >
               Hire A Driver
             </button>
 
             <a
               href="#services"
-              className="w-full sm:w-auto border border-[#f19e02] hover:bg-[#f19e02]/10 text-[#f19e02] font-bold px-7 py-2.5 rounded text-sm transition-all duration-200"
+              className="w-full sm:w-auto border border-[#f19e02] hover:bg-[#f19e02]/10 text-[#f19e02] font-bold px-7 py-2.5 rounded text-sm active:scale-95 transition-transform duration-200"
             >
               Explore Our Services
             </a>
