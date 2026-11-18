@@ -1,42 +1,27 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Facebook, Linkedin, Twitter, ArrowRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, ArrowRight } from 'lucide-react';
 
 const TEAM_MEMBERS = [
   {
     id: 1,
-    name: 'Leo Martin',
-    role: 'Senior Transit Chauffeur',
-    image: '/images/team/leo_martin_mockup.png',
+    name: 'Gershom Mpinganjira',
+    image: '/images/our_team/gershom_mpinganjira.jpg',
   },
   {
     id: 2,
-    name: 'Nish Nguyen',
-    role: 'Long-Distance Specialist',
-    image: '/images/team/nish_nguyen_mockup.png',
+    name: 'Imran Lupiya',
+    image: '/images/our_team/imran_lupiya.jpg',
   },
   {
     id: 3,
-    name: 'Taylor Jones',
-    role: 'Head of Operations',
-    image: '/images/team/taylor_jones_mockup.png',
-  },
-  {
-    id: 4,
-    name: 'Aisha Rahman',
-    role: 'Executive Private Chauffeur',
-    image: '/images/team/aisha_rahman_mockup.png',
-  },
-  {
-    id: 5,
-    name: 'Arjun Lim',
-    role: 'Fleet Safety Director',
-    image: '/images/team/arjun_lim_mockup.png',
+    name: 'James Mphandauyo',
+    image: '/images/our_team/james_mphandauyo.jpg',
   },
 ];
 
 export default function OurTeam() {
-  // Center active index defaults to 2 (Taylor Jones)
-  const [activeIndex, setActiveIndex] = useState(2);
+  // Center active index defaults to 1 (Imran Lupiya)
+  const [activeIndex, setActiveIndex] = useState(1);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + TEAM_MEMBERS.length) % TEAM_MEMBERS.length);
@@ -57,7 +42,7 @@ export default function OurTeam() {
           </span>
         </div>
 
-        {/* 5 Arch Members Container - Mobile Friendly Horizontal Swipe / Center Layout */}
+        {/* Arch Members Container - Mobile Friendly Horizontal Swipe / Center Layout */}
         <div className="flex items-end justify-start sm:justify-center gap-3 sm:gap-6 lg:gap-8 overflow-x-auto pb-8 pt-8 px-2 no-scrollbar snap-x snap-mandatory">
           {TEAM_MEMBERS.map((member, idx) => {
             const isActive = idx === activeIndex;
@@ -93,42 +78,10 @@ export default function OurTeam() {
                       alt={member.name}
                       className="w-full h-full object-cover object-top pointer-events-none"
                     />
-
-                    {/* Active member social overlay buttons */}
-                    {isActive && (
-                      <div className="absolute bottom-3 left-0 right-0 flex justify-center items-center gap-1.5 z-10">
-                        <div className="bg-white/95 backdrop-blur-sm rounded-full px-3 py-1 flex items-center gap-2.5 shadow-md border border-gray-100">
-                          <a
-                            href="#facebook"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-gray-700 hover:text-[#070c32] active:scale-95 transition-transform"
-                            aria-label="Facebook"
-                          >
-                            <Facebook className="w-3.5 h-3.5" />
-                          </a>
-                          <a
-                            href="#linkedin"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-gray-700 hover:text-[#070c32] active:scale-95 transition-transform"
-                            aria-label="LinkedIn"
-                          >
-                            <Linkedin className="w-3.5 h-3.5" />
-                          </a>
-                          <a
-                            href="#twitter"
-                            onClick={(e) => e.stopPropagation()}
-                            className="text-gray-700 hover:text-[#070c32] active:scale-95 transition-transform"
-                            aria-label="Twitter / X"
-                          >
-                            <Twitter className="w-3.5 h-3.5" />
-                          </a>
-                        </div>
-                      </div>
-                    )}
                   </div>
                 </div>
 
-                {/* Member Name & Subtitle */}
+                {/* Member Name */}
                 <div className="text-center mt-3 sm:mt-4">
                   <h3
                     className={`font-black tracking-tight transition-colors ${
@@ -137,11 +90,6 @@ export default function OurTeam() {
                   >
                     {member.name}
                   </h3>
-                  {isActive && (
-                    <p className="text-xs text-gray-600 font-medium mt-0.5">
-                      {member.role}
-                    </p>
-                  )}
                 </div>
               </div>
             );
