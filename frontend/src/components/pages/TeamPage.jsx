@@ -3,7 +3,7 @@ import OurTeam from '../sections/OurTeam';
 import HireDriverBanner from '../sections/HireDriverBanner';
 import { ShieldCheck, Award, HeartHandshake } from 'lucide-react';
 
-export default function TeamPage({ onOpenBooking }) {
+export default function TeamPage({ onOpenBooking, onNavigate }) {
   return (
     <div className="bg-[#070c32] text-white">
       {/* 1. Header Banner */}
@@ -60,7 +60,10 @@ export default function TeamPage({ onOpenBooking }) {
       </section>
 
       {/* 4. CTA */}
-      <HireDriverBanner onOpenBooking={onOpenBooking} />
+      <HireDriverBanner
+        onOpenBooking={onOpenBooking}
+        onExploreServices={() => onNavigate && onNavigate('services')}
+      />
     </div>
   );
 }

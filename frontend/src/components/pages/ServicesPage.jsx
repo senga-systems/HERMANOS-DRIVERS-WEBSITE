@@ -144,7 +144,10 @@ export default function ServicesPage({ onOpenBooking, onSelectService }) {
       </section>
 
       {/* 3. CTA */}
-      <HireDriverBanner onOpenBooking={onOpenBooking} />
+      <HireDriverBanner
+        onOpenBooking={onOpenBooking}
+        onExploreServices={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+      />
     </div>
   );
 }

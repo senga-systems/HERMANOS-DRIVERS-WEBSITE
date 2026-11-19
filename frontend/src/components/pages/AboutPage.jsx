@@ -165,7 +165,10 @@ export default function AboutPage({ onOpenBooking, onNavigate }) {
       </section>
 
       {/* 4. Call To Action Banner */}
-      <HireDriverBanner onOpenBooking={onOpenBooking} />
+      <HireDriverBanner
+        onOpenBooking={onOpenBooking}
+        onExploreServices={() => onNavigate && onNavigate('services')}
+      />
     </div>
   );
 }

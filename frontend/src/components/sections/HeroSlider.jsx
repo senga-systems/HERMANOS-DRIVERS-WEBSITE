@@ -30,7 +30,7 @@ const HERO_SLIDES = [
 
 const TOP_BRUSH_IMAGE = '/images/hero/brush-top-clean.png';
 
-export default function HeroSlider({ onOpenBooking }) {
+export default function HeroSlider({ onOpenBooking, onExploreServices }) {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   // 6000ms (6-second) rotating timer alternating both images and texts
@@ -124,13 +124,14 @@ export default function HeroSlider({ onOpenBooking }) {
             </button>
 
             {/* Secondary Action: Explore Our Services */}
-            <a
-              href="#services"
-              className="inline-flex items-center justify-center gap-2.5 bg-[#070c32]/90 hover:bg-[#070c32] text-[#f19e02] border-2 border-[#f19e02] font-bold px-7 py-3 rounded text-sm sm:text-base active:scale-95 transition-transform duration-200 shadow-sm"
+            <button
+              type="button"
+              onClick={onExploreServices}
+              className="inline-flex items-center justify-center gap-2.5 bg-[#070c32]/90 hover:bg-[#070c32] text-[#f19e02] border-2 border-[#f19e02] font-bold px-7 py-3 rounded text-sm sm:text-base active:scale-95 transition-transform duration-200 shadow-sm cursor-pointer"
             >
               <span>Explore Our Services</span>
               <ArrowRight className="w-4 h-4 stroke-[2.5]" />
-            </a>
+            </button>
           </div>
 
           {/* Alternating Slide Progress Indicator Dots */}

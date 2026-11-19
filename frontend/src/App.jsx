@@ -65,7 +65,10 @@ export default function App() {
                 transition={{ duration: 0.4 }}
               >
                 {/* Hero Section with Alternating Background Images and Texts */}
-                <HeroSlider onOpenBooking={() => navigateToQuote()} />
+                <HeroSlider
+                  onOpenBooking={() => navigateToQuote()}
+                  onExploreServices={() => handleSelectTab('services')}
+                />
 
                 {/* Why Choose Us Section */}
                 <WhyChooseUs onLearnMore={() => handleSelectTab('about')} />
@@ -79,7 +82,10 @@ export default function App() {
                 <OurTeam />
 
                 {/* Hire A Driver Call-To-Action Banner */}
-                <HireDriverBanner onOpenBooking={() => navigateToQuote()} />
+                <HireDriverBanner
+                  onOpenBooking={() => navigateToQuote()}
+                  onExploreServices={() => handleSelectTab('services')}
+                />
               </motion.div>
             )}
 
@@ -124,7 +130,10 @@ export default function App() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                <TeamPage onOpenBooking={() => navigateToQuote()} />
+                <TeamPage
+                  onOpenBooking={() => navigateToQuote()}
+                  onNavigate={handleSelectTab}
+                />
               </motion.div>
             )}
 
@@ -137,7 +146,10 @@ export default function App() {
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.4 }}
               >
-                <LocationPage onOpenBooking={() => navigateToQuote()} />
+                <LocationPage
+                  onOpenBooking={() => navigateToQuote()}
+                  onNavigate={handleSelectTab}
+                />
               </motion.div>
             )}
 

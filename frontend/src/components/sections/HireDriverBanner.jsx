@@ -1,7 +1,7 @@
 import React from 'react';
 import { Phone, Mail } from 'lucide-react';
 
-export default function HireDriverBanner({ onOpenBooking }) {
+export default function HireDriverBanner({ onOpenBooking, onExploreServices }) {
   return (
     <section className="bg-[#f19e02] py-16 sm:py-20 px-4 sm:px-8">
       <div className="max-w-4xl mx-auto">
@@ -33,12 +33,13 @@ export default function HireDriverBanner({ onOpenBooking }) {
               Hire A Driver
             </button>
 
-            <a
-              href="#services"
-              className="w-full sm:w-auto border border-[#f19e02] hover:bg-[#f19e02]/10 text-[#f19e02] font-bold px-7 py-2.5 rounded text-sm active:scale-95 transition-transform duration-200"
+            <button
+              type="button"
+              onClick={onExploreServices}
+              className="w-full sm:w-auto border border-[#f19e02] hover:bg-[#f19e02]/10 text-[#f19e02] font-bold px-7 py-2.5 rounded text-sm active:scale-95 transition-transform duration-200 cursor-pointer"
             >
               Explore Our Services
-            </a>
+            </button>
           </div>
 
           {/* Divider line */}

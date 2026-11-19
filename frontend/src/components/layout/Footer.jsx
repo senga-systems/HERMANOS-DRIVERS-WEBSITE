@@ -27,7 +27,9 @@ export default function Footer({ onOpenBooking, onSelectTab }) {
             {/* Social Icons */}
             <div className="flex items-center gap-2.5 pt-2">
               <a
-                href="#facebook"
+                href="https://www.facebook.com/6th.Mw"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="w-7 h-7 rounded-full bg-white/10 hover:bg-[#f19e02] hover:text-[#070c32] text-gray-300 flex items-center justify-center transition-colors text-xs active:scale-95 transition-transform"
                 aria-label="Facebook"
               >

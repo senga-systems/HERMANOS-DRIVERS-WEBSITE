@@ -29,7 +29,7 @@ const HUBS = [
   },
 ];
 
-export default function LocationPage({ onOpenBooking }) {
+export default function LocationPage({ onOpenBooking, onNavigate }) {
   return (
     <div className="bg-[#070c32] text-white">
       {/* 1. Header Banner */}
@@ -108,7 +108,10 @@ export default function LocationPage({ onOpenBooking }) {
       </section>
 
       {/* 3. CTA */}
-      <HireDriverBanner onOpenBooking={onOpenBooking} />
+      <HireDriverBanner
+        onOpenBooking={onOpenBooking}
+        onExploreServices={() => onNavigate && onNavigate('services')}
+      />
     </div>
   );
 }
