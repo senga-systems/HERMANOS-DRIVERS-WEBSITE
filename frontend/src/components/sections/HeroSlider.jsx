@@ -58,7 +58,7 @@ export default function HeroSlider({ onOpenBooking, onExploreServices }) {
             }}
           >
             {/* Deep navy gradient overlay on left for maximum text contrast */}
-            <div className="absolute inset-0 bg-gradient-to-r from-[#070c32] via-[#070c32]/85 to-transparent sm:via-[#070c32]/80 sm:to-[#070c32]/30" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#070c32] via-[#070c32]/95 via-45% to-[#070c32]/30 sm:via-[#070c32]/90 sm:to-transparent" />
           </div>
         );
       })}
@@ -85,26 +85,26 @@ export default function HeroSlider({ onOpenBooking, onExploreServices }) {
           </motion.h1>
 
           {/* Dynamic Alternating Sub-Headline & Paragraph Container */}
-          <div className="relative min-h-[140px] sm:min-h-[130px] lg:min-h-[120px] mb-8 overflow-hidden">
+          <div className="grid grid-cols-1 mb-8">
             {HERO_SLIDES.map((slide, index) => {
               const isActive = index === currentSlide;
               return (
                 <div
                   key={slide.id}
-                  className={`absolute top-0 left-0 w-full transition-all duration-700 ease-in-out ${
+                  className={`col-start-1 row-start-1 w-full transition-all duration-700 ease-in-out ${
                     isActive
-                      ? 'opacity-100 pointer-events-auto translate-y-0'
-                      : 'opacity-0 pointer-events-none translate-y-2'
+                      ? 'opacity-100 pointer-events-auto translate-y-0 z-10'
+                      : 'opacity-0 pointer-events-none translate-y-2 z-0'
                   }`}
                   aria-hidden={!isActive}
                 >
                   {/* Sub-headline */}
-                  <h2 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-3 drop-shadow">
+                  <h2 className="text-xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight mb-3 drop-shadow-md">
                     {slide.subHeadline}
                   </h2>
 
                   {/* Descriptive Paragraph */}
-                  <p className="text-white text-sm sm:text-base lg:text-lg leading-relaxed font-normal max-w-xl drop-shadow">
+                  <p className="text-gray-100 sm:text-white text-sm sm:text-base lg:text-lg leading-relaxed font-normal max-w-xl drop-shadow-md">
                     {slide.paragraph}
                   </p>
                 </div>
