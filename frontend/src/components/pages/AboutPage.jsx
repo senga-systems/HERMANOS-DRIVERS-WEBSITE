@@ -40,7 +40,7 @@ export default function AboutPage({ onOpenBooking, onNavigate }) {
             <div className="lg:col-span-5 flex justify-center">
               <div className="relative w-full max-w-sm rounded-2xl overflow-hidden border border-gray-300">
                 <img
-                  src="/images/why-us/driver-clean.png"
+                  src="/images/why-us/driver-clean.jpg"
                   alt="Hermanos Professional Driver"
                   className="w-full h-[380px] sm:h-[440px] object-cover object-center"
                 />
