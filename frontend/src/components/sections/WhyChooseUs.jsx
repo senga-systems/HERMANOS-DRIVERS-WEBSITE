@@ -9,9 +9,9 @@ export default function WhyChooseUs({ onLearnMore }) {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
           {/* Left Column: Driver Photo */}
           <FadeUp className="lg:col-span-5 flex justify-center">
-            <div className="relative w-full max-w-sm rounded-2xl overflow-hidden shadow-2xl bg-white border border-gray-300">
+            <div className="relative w-full max-w-sm rounded-2xl overflow-hidden border border-gray-300">
               <img
-                src="/images/why-us/driver-enhanced.png"
+                src="/images/why-us/driver-clean.png"
                 alt="Professional Hermanos Driver behind the steering wheel"
                 className="w-full h-[380px] sm:h-[420px] object-cover object-center"
               />
