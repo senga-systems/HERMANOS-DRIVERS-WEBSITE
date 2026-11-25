@@ -4,6 +4,7 @@ import {
   getBookingByIdService,
   updateBookingStatusService,
 } from '../services/bookingService.js';
+import { sendQuoteRequestEmail } from '../services/emailService.js';
 
 /**
  * Controller: Handles incoming HTTP requests for bookings
@@ -12,12 +13,21 @@ import {
 export const createBooking = async (req, res, next) => {
   try {
     const booking = await createBookingService(req.body);
+    const emailStatus = await sendQuoteRequestEmail({
+      ...booking,
+      vehicleType: req.body.vehicleType,
+      travelDate: req.body.travelDate,
+      tripNotes: req.body.tripNotes,
+    });
 
     return res.status(201).json({
       status: 'success',
-      message: 'Booking request received successfully! A Hermanos representative will contact you shortly.',
+      message: emailStatus.sent
+        ? 'Booking and quote request emailed to Hermanos Drivers successfully!'
+        : 'Booking request received successfully! A Hermanos representative will contact you shortly.',
       data: {
         booking,
+        emailStatus,
       },
     });
   } catch (error) {

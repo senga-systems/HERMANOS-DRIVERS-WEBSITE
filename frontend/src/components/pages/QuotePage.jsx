@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Calculator,
   ShieldCheck,
@@ -86,8 +86,11 @@ export default function QuotePage({ initialService = '', onNavigate }) {
     return 'VEHICLE_DELIVERY';
   };
 
+  const getTodayLocal = () => new Date().toLocaleDateString('en-CA');
+
   const [formData, setFormData] = useState({
     customerName: '',
+    customerEmail: '',
     phoneNumber: '',
     serviceType: mapInitialService(initialService),
     pickupLocation: '',
@@ -97,8 +100,15 @@ export default function QuotePage({ initialService = '', onNavigate }) {
     notes: '',
   });
 
+  useEffect(() => {
+    if (initialService) {
+      setFormData((prev) => ({ ...prev, serviceType: mapInitialService(initialService) }));
+    }
+  }, [initialService]);
+
   const [loading, setLoading] = useState(false);
   const [successData, setSuccessData] = useState(null);
+  const [emailStatus, setEmailStatus] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
   const [fieldErrors, setFieldErrors] = useState({});
 
@@ -113,12 +123,30 @@ export default function QuotePage({ initialService = '', onNavigate }) {
 
   const validateForm = () => {
     const errors = {};
-    if (!formData.customerName.trim() || formData.customerName.trim().length < 2) {
+    const trimmedName = formData.customerName.trim();
+    const trimmedPhone = formData.phoneNumber.trim();
+    const trimmedEmail = formData.customerEmail.trim();
+
+    if (!trimmedName || trimmedName.length < 2) {
       errors.customerName = 'Please enter your full name (at least 2 characters).';
+    } else if (trimmedName.length > 100) {
+      errors.customerName = 'Full name cannot exceed 100 characters.';
     }
-    if (!formData.phoneNumber.trim()) {
+
+    if (!trimmedPhone) {
       errors.phoneNumber = 'Phone number is required so our team can provide your quote.';
+    } else if (!/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,20}$/.test(trimmedPhone)) {
+      errors.phoneNumber = 'Please provide a valid phone number (e.g., +265 997 096 922).';
     }
+
+    if (trimmedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      errors.customerEmail = 'Please enter a valid email address for receiving your quote.';
+    }
+
+    if (formData.travelDate && formData.travelDate < getTodayLocal()) {
+      errors.travelDate = 'Preferred date cannot be in the past.';
+    }
+
     return errors;
   };
 
@@ -133,27 +161,36 @@ export default function QuotePage({ initialService = '', onNavigate }) {
     setLoading(true);
     setErrorMessage('');
 
-    // Prepare payload for backend validator
+    const trimmedEmail = formData.customerEmail.trim();
+    const trimmedNotes = formData.notes.trim();
+
+    // Prepare payload for backend validator & email notification
     const combinedNotes = [
+      trimmedEmail ? `Reply Email: ${trimmedEmail}` : null,
       formData.travelDate ? `Preferred Date: ${formData.travelDate}` : null,
       formData.vehicleType ? `Vehicle Category: ${formData.vehicleType}` : null,
-      formData.notes ? `Details: ${formData.notes}` : null,
+      trimmedNotes ? `Details: ${trimmedNotes}` : null,
     ]
       .filter(Boolean)
       .join(' | ');
 
     const payload = {
-      customerName: formData.customerName,
-      phoneNumber: formData.phoneNumber,
+      customerName: formData.customerName.trim(),
+      customerEmail: trimmedEmail,
+      phoneNumber: formData.phoneNumber.trim(),
       serviceType: formData.serviceType,
-      pickupLocation: formData.pickupLocation,
-      dropoffLocation: formData.dropoffLocation,
+      pickupLocation: formData.pickupLocation.trim(),
+      dropoffLocation: formData.dropoffLocation.trim(),
+      vehicleType: formData.vehicleType,
+      travelDate: formData.travelDate,
+      tripNotes: trimmedNotes,
       notes: combinedNotes,
     };
 
     try {
       const response = await bookingService.createBooking(payload);
       setSuccessData(response.data?.booking || true);
+      setEmailStatus(response.data?.emailStatus || null);
     } catch (err) {
       setErrorMessage(
         err.message || 'Unable to submit quote request. Please try again or reach out directly on WhatsApp.'
@@ -165,12 +202,14 @@ export default function QuotePage({ initialService = '', onNavigate }) {
 
   const handleReset = () => {
     setSuccessData(null);
+    setEmailStatus(null);
     setErrorMessage('');
     setFieldErrors({});
     setFormData({
       customerName: '',
+      customerEmail: '',
       phoneNumber: '',
-      serviceType: 'VEHICLE_DELIVERY',
+      serviceType: mapInitialService(initialService),
       pickupLocation: '',
       dropoffLocation: '',
       travelDate: '',
@@ -237,53 +276,98 @@ export default function QuotePage({ initialService = '', onNavigate }) {
 
                     <p className="text-gray-300 text-sm max-w-md mx-auto mb-6 leading-relaxed">
                       Thank you, <strong className="text-white">{formData.customerName}</strong>! Our dispatch operations team has received your trip specifications and is preparing your personalized quote.
+                      {emailStatus?.sent && (
+                        <>
+                          {' '}Your request has been emailed to{' '}
+                          <strong className="text-[#f19e02]">hermanosgroup265@gmail.com</strong>
+                          {emailStatus.customerConfirmationSent && formData.customerEmail
+                            ? ` and a confirmation copy was sent to ${formData.customerEmail}.`
+                            : '.'}
+                        </>
+                      )}
                     </p>
+
+                    {emailStatus && !emailStatus.sent && (
+                      <div className="mb-6 p-3.5 rounded-xl bg-amber-500/15 border border-amber-400/30 text-amber-200 text-xs leading-relaxed text-left">
+                        Your quote request was saved, but automatic email delivery is currently unavailable on the server. You can also send it directly via your email app below or reach us on WhatsApp.
+                      </div>
+                    )}
 
                     {/* Booking Summary Box */}
                     <div className="bg-[#04081e] border border-white/10 rounded-xl p-5 mb-8 text-left text-xs sm:text-sm space-y-2.5">
-                      <div className="flex justify-between border-b border-white/10 pb-2">
+                      <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
                         <span className="text-gray-400">Service:</span>
-                        <span className="text-white font-bold">{activeServiceInfo.label}</span>
+                        <span className="text-white font-bold text-right">{activeServiceInfo.label}</span>
                       </div>
-                      <div className="flex justify-between border-b border-white/10 pb-2">
+                      <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
                         <span className="text-gray-400">Contact Number:</span>
                         <span className="text-[#f19e02] font-mono font-bold">{formData.phoneNumber}</span>
                       </div>
+                      {formData.customerEmail && (
+                        <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                          <span className="text-gray-400">Reply Email:</span>
+                          <span className="text-white font-medium break-all text-right">{formData.customerEmail}</span>
+                        </div>
+                      )}
                       {(formData.pickupLocation || formData.dropoffLocation) && (
-                        <div className="flex justify-between border-b border-white/10 pb-2">
+                        <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
                           <span className="text-gray-400">Route:</span>
-                          <span className="text-white">
+                          <span className="text-white text-right">
                             {formData.pickupLocation || 'Specified'} → {formData.dropoffLocation || 'Destination'}
                           </span>
                         </div>
                       )}
+                      {formData.travelDate && (
+                        <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
+                          <span className="text-gray-400">Preferred Date:</span>
+                          <span className="text-white">{formData.travelDate}</span>
+                        </div>
+                      )}
                       {formData.vehicleType && (
-                        <div className="flex justify-between">
+                        <div className="flex justify-between gap-4">
                           <span className="text-gray-400">Vehicle:</span>
-                          <span className="text-white">{formData.vehicleType}</span>
+                          <span className="text-white text-right">{formData.vehicleType}</span>
                         </div>
                       )}
                     </div>
 
                     {/* Fast Dispatch Action Buttons */}
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5">
+                    <div className="flex flex-col sm:flex-row flex-wrap items-center justify-center gap-3.5">
                       <a
                         href={`https://wa.me/265997096922?text=Hello%20Hermanos%20Drivers!%20I%20have%20submitted%20a%20quote%20request%20for%20${encodeURIComponent(
                           activeServiceInfo.label
-                        )}%20(Name:%20${encodeURIComponent(formData.customerName)},%20Route:%20${encodeURIComponent(
+                        )}%20(Name:%20${encodeURIComponent(formData.customerName)}${
+                          formData.customerEmail ? `, Email: ${formData.customerEmail}` : ''
+                        },%20Route:%20${encodeURIComponent(
                           (formData.pickupLocation || 'Pickup') + ' to ' + (formData.dropoffLocation || 'Dropoff')
-                        )}).%20Please%20confirm%20my%20rate%20and%20driver.`}
+                        )}${
+                          formData.travelDate ? `, Date: ${formData.travelDate}` : ''
+                        }).%20Please%20confirm%20my%20rate%20and%20driver.`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#39b54a] hover:bg-[#2ea33e] text-white font-bold px-7 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#39b54a] hover:bg-[#2ea33e] text-white font-bold px-6 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
                       >
                         <MessageSquare className="w-5 h-5" />
                         <span>Chat With Dispatch on WhatsApp</span>
                       </a>
 
+                      {emailStatus && !emailStatus.sent && (
+                        <a
+                          href={`mailto:hermanosgroup265@gmail.com?subject=${encodeURIComponent(
+                            `Quote Request: ${activeServiceInfo.label} - ${formData.customerName}`
+                          )}&body=${encodeURIComponent(
+                            `Name: ${formData.customerName}\nEmail: ${formData.customerEmail || 'Not provided'}\nPhone: ${formData.phoneNumber}\nService: ${activeServiceInfo.label}\nPickup: ${formData.pickupLocation || 'Not specified'}\nDrop-off: ${formData.dropoffLocation || 'Not specified'}\nVehicle: ${formData.vehicleType}\nPreferred Date: ${formData.travelDate || 'Not specified'}\nNotes: ${formData.notes || 'None'}`
+                          )}`}
+                          className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white/10 hover:bg-white/20 text-white font-bold px-6 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
+                        >
+                          <Mail className="w-4 h-4" />
+                          <span>Email Dispatch Directly</span>
+                        </a>
+                      )}
+
                       <a
                         href="tel:+265997096922"
-                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-7 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-[#f19e02] hover:bg-[#d98c00] text-[#070c32] font-bold px-6 py-3.5 rounded-lg text-sm shadow-md active:scale-95 transition-transform duration-200"
                       >
                         <Phone className="w-4 h-4" />
                         <span>Call +265 997 096 922</span>
@@ -322,18 +406,21 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                       </div>
                     )}
 
-                    <form onSubmit={handleSubmit} className="space-y-4">
+                    <form onSubmit={handleSubmit} noValidate className="space-y-4">
                       {/* Full Name & Phone Row */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          <label htmlFor="quote-customer-name" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                             Full Name <span className="text-[#f19e02]">*</span>
                           </label>
                           <input
+                            id="quote-customer-name"
                             type="text"
                             name="customerName"
                             value={formData.customerName}
                             onChange={handleChange}
+                            maxLength={100}
+                            autoComplete="name"
                             placeholder="e.g. Chisomo Banda"
                             className={`w-full px-4 py-3 rounded-xl bg-[#04081e] border ${
                               fieldErrors.customerName
@@ -348,14 +435,17 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          <label htmlFor="quote-phone-number" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                             Phone / WhatsApp <span className="text-[#f19e02]">*</span>
                           </label>
                           <input
+                            id="quote-phone-number"
                             type="tel"
                             name="phoneNumber"
                             value={formData.phoneNumber}
                             onChange={handleChange}
+                            maxLength={25}
+                            autoComplete="tel"
                             placeholder="e.g. +265 997 096 922"
                             className={`w-full px-4 py-3 rounded-xl bg-[#04081e] border ${
                               fieldErrors.phoneNumber
@@ -370,12 +460,45 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                         </div>
                       </div>
 
+                      {/* Email Address for Quote Reply */}
+                      <div>
+                        <label htmlFor="quote-customer-email" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          Your Email Address <span className="text-gray-400 font-normal normal-case">(for quote reply)</span>
+                        </label>
+                        <div className="relative">
+                          <input
+                            id="quote-customer-email"
+                            type="email"
+                            name="customerEmail"
+                            value={formData.customerEmail}
+                            onChange={handleChange}
+                            maxLength={150}
+                            autoComplete="email"
+                            placeholder="e.g. yourname@example.com"
+                            className={`w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border ${
+                              fieldErrors.customerEmail
+                                ? 'border-red-500 ring-1 ring-red-500'
+                                : 'border-white/20'
+                            } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500`}
+                          />
+                          <Mail className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
+                        </div>
+                        {fieldErrors.customerEmail ? (
+                          <p className="text-red-400 text-xs mt-1">{fieldErrors.customerEmail}</p>
+                        ) : (
+                          <p className="text-[11px] text-gray-400 mt-1">
+                            Optional — enter your email to receive your quotation and replies directly.
+                          </p>
+                        )}
+                      </div>
+
                       {/* Service Required */}
                       <div>
-                        <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                        <label htmlFor="quote-service-type" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                           Service Required <span className="text-[#f19e02]">*</span>
                         </label>
                         <select
+                          id="quote-service-type"
                           name="serviceType"
                           value={formData.serviceType}
                           onChange={handleChange}
@@ -395,36 +518,40 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                       {/* Pickup and Dropoff Locations */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          <label htmlFor="quote-pickup-location" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                             Pickup Point
                           </label>
                           <div className="relative">
                             <input
+                              id="quote-pickup-location"
                               type="text"
                               name="pickupLocation"
                               value={formData.pickupLocation}
                               onChange={handleChange}
+                              maxLength={200}
                               placeholder="e.g. Lilongwe or Dar es Salaam"
                               className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500"
                             />
-                            <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                            <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
                           </div>
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          <label htmlFor="quote-dropoff-location" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                             Drop-Off Destination
                           </label>
                           <div className="relative">
                             <input
+                              id="quote-dropoff-location"
                               type="text"
                               name="dropoffLocation"
                               value={formData.dropoffLocation}
                               onChange={handleChange}
+                              maxLength={200}
                               placeholder="e.g. Blantyre, Mzuzu or Zomba"
                               className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500"
                             />
-                            <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                            <MapPin className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
                           </div>
                         </div>
                       </div>
@@ -432,11 +559,12 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                       {/* Vehicle Category & Travel Date */}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div>
-                          <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          <label htmlFor="quote-vehicle-type" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                             Vehicle Category
                           </label>
                           <div className="relative">
                             <select
+                              id="quote-vehicle-type"
                               name="vehicleType"
                               value={formData.vehicleType}
                               onChange={handleChange}
@@ -448,37 +576,48 @@ export default function QuotePage({ initialService = '', onNavigate }) {
                                 </option>
                               ))}
                             </select>
-                            <Car className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                            <Car className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
                           </div>
                         </div>
 
                         <div>
-                          <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                          <label htmlFor="quote-travel-date" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                             Preferred Date
                           </label>
                           <div className="relative">
                             <input
+                              id="quote-travel-date"
                               type="date"
                               name="travelDate"
+                              min={getTodayLocal()}
                               value={formData.travelDate}
                               onChange={handleChange}
-                              className="w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none"
+                              className={`w-full pl-10 pr-4 py-3 rounded-xl bg-[#04081e] border ${
+                                fieldErrors.travelDate
+                                  ? 'border-red-500 ring-1 ring-red-500'
+                                  : 'border-white/20'
+                              } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none [color-scheme:dark]`}
                             />
-                            <Calendar className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5" />
+                            <Calendar className="w-4 h-4 text-gray-400 absolute left-3.5 top-3.5 pointer-events-none" />
                           </div>
+                          {fieldErrors.travelDate && (
+                            <p className="text-red-400 text-xs mt-1">{fieldErrors.travelDate}</p>
+                          )}
                         </div>
                       </div>
 
                       {/* Notes / Special Instructions */}
                       <div>
-                        <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
+                        <label htmlFor="quote-notes" className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1.5">
                           Trip Specifics or Special Requests (Optional)
                         </label>
                         <textarea
+                          id="quote-notes"
                           rows="3"
                           name="notes"
                           value={formData.notes}
                           onChange={handleChange}
+                          maxLength={1000}
                           placeholder="Vehicle make/model, automatic or manual transmission, specific stops, port paperwork status, etc."
                           className="w-full px-4 py-3 rounded-xl bg-[#04081e] border border-white/20 text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none placeholder-gray-500"
                         />

@@ -7,11 +7,20 @@ import { AppError } from '../utils/errorHandler.js';
  */
 
 export const createBookingService = async (bookingData) => {
-  const { customerName, phoneNumber, serviceType, pickupLocation, dropoffLocation, notes } = bookingData;
+  const {
+    customerName,
+    customerEmail,
+    phoneNumber,
+    serviceType,
+    pickupLocation,
+    dropoffLocation,
+    notes,
+  } = bookingData;
 
   const newBooking = await prisma.booking.create({
     data: {
       customerName,
+      customerEmail: customerEmail || null,
       phoneNumber,
       serviceType,
       pickupLocation: pickupLocation || null,

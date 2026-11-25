@@ -21,6 +21,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
 
   const [formData, setFormData] = useState({
     customerName: '',
+    customerEmail: '',
     phoneNumber: '',
     serviceType: mapInitialService(initialService),
     pickupLocation: '',
@@ -53,11 +54,20 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
 
   const validateLocal = () => {
     const errors = {};
-    if (!formData.customerName.trim() || formData.customerName.trim().length < 2) {
+    const trimmedName = formData.customerName.trim();
+    const trimmedPhone = formData.phoneNumber.trim();
+    const trimmedEmail = formData.customerEmail.trim();
+
+    if (!trimmedName || trimmedName.length < 2) {
       errors.customerName = 'Please enter your full name (at least 2 characters).';
     }
-    if (!formData.phoneNumber.trim()) {
+    if (!trimmedPhone) {
       errors.phoneNumber = 'Phone number is required for booking confirmation.';
+    } else if (!/^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]{6,20}$/.test(trimmedPhone)) {
+      errors.phoneNumber = 'Please enter a valid phone number (e.g., +265 997 096 922).';
+    }
+    if (trimmedEmail && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmedEmail)) {
+      errors.customerEmail = 'Please enter a valid email address.';
     }
     return errors;
   };
@@ -74,7 +84,16 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
     setErrorMessage('');
 
     try {
-      const response = await bookingService.createBooking(formData);
+      const response = await bookingService.createBooking({
+        ...formData,
+        customerName: formData.customerName.trim(),
+        customerEmail: formData.customerEmail.trim(),
+        phoneNumber: formData.phoneNumber.trim(),
+        pickupLocation: formData.pickupLocation.trim(),
+        dropoffLocation: formData.dropoffLocation.trim(),
+        notes: formData.notes.trim(),
+        tripNotes: formData.notes.trim(),
+      });
       setSuccessData(response.data?.booking || true);
     } catch (err) {
       setErrorMessage(
@@ -91,6 +110,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
     setFieldErrors({});
     setFormData({
       customerName: '',
+      customerEmail: '',
       phoneNumber: '',
       serviceType: 'VEHICLE_DELIVERY',
       pickupLocation: '',
@@ -168,7 +188,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
               </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form onSubmit={handleSubmit} noValidate className="space-y-4">
               {/* Customer Name */}
               <div>
                 <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1">
@@ -179,6 +199,7 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                   name="customerName"
                   value={formData.customerName}
                   onChange={handleChange}
+                  maxLength={100}
                   placeholder="e.g. Chisomo Banda"
                   className={`w-full px-4 py-2.5 rounded-lg bg-[#04081e] border ${
                     fieldErrors.customerName ? 'border-red-500' : 'border-white/20'
@@ -190,25 +211,48 @@ export default function BookingModal({ isOpen, onClose, initialService = '' }) {
                 )}
               </div>
 
-              {/* Phone Number */}
-              <div>
-                <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1">
-                  Phone / WhatsApp Number <span className="text-[#f19e02]">*</span>
-                </label>
-                <input
-                  type="tel"
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  placeholder="e.g. +265 997 096 922"
-                  className={`w-full px-4 py-2.5 rounded-lg bg-[#04081e] border ${
-                    fieldErrors.phoneNumber ? 'border-red-500' : 'border-white/20'
-                  } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none`}
-                  required
-                />
-                {fieldErrors.phoneNumber && (
-                  <p className="text-red-400 text-xs mt-1">{fieldErrors.phoneNumber}</p>
-                )}
+              {/* Phone Number & Email */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1">
+                    Phone / WhatsApp <span className="text-[#f19e02]">*</span>
+                  </label>
+                  <input
+                    type="tel"
+                    name="phoneNumber"
+                    value={formData.phoneNumber}
+                    onChange={handleChange}
+                    maxLength={25}
+                    placeholder="e.g. +265 997 096 922"
+                    className={`w-full px-4 py-2.5 rounded-lg bg-[#04081e] border ${
+                      fieldErrors.phoneNumber ? 'border-red-500' : 'border-white/20'
+                    } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none`}
+                    required
+                  />
+                  {fieldErrors.phoneNumber && (
+                    <p className="text-red-400 text-xs mt-1">{fieldErrors.phoneNumber}</p>
+                  )}
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-300 uppercase tracking-wide mb-1">
+                    Email <span className="text-gray-400 font-normal normal-case">(for reply)</span>
+                  </label>
+                  <input
+                    type="email"
+                    name="customerEmail"
+                    value={formData.customerEmail}
+                    onChange={handleChange}
+                    maxLength={150}
+                    placeholder="e.g. name@example.com"
+                    className={`w-full px-4 py-2.5 rounded-lg bg-[#04081e] border ${
+                      fieldErrors.customerEmail ? 'border-red-500' : 'border-white/20'
+                    } text-white text-sm outline-none transition-all duration-300 focus:ring-2 focus:ring-[#f5a623] focus:outline-none`}
+                  />
+                  {fieldErrors.customerEmail && (
+                    <p className="text-red-400 text-xs mt-1">{fieldErrors.customerEmail}</p>
+                  )}
+                </div>
               </div>
 
               {/* Service Type */}

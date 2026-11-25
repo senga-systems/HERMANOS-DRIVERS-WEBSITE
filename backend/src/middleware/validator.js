@@ -29,8 +29,16 @@ export const bookingValidationRules = [
     .notEmpty()
     .withMessage('Customer name is required.')
     .isLength({ min: 2, max: 100 })
-    .withMessage('Customer name must be between 2 and 100 characters.')
-    .escape(),
+    .withMessage('Customer name must be between 2 and 100 characters.'),
+
+  body('customerEmail')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isEmail()
+    .withMessage('Please provide a valid email address.')
+    .normalizeEmail({ gmail_remove_dots: false })
+    .isLength({ max: 150 })
+    .withMessage('Email address cannot exceed 150 characters.'),
 
   body('phoneNumber')
     .trim()
@@ -50,20 +58,35 @@ export const bookingValidationRules = [
     .optional({ checkFalsy: true })
     .trim()
     .isLength({ max: 200 })
-    .withMessage('Pickup location cannot exceed 200 characters.')
-    .escape(),
+    .withMessage('Pickup location cannot exceed 200 characters.'),
 
   body('dropoffLocation')
     .optional({ checkFalsy: true })
     .trim()
     .isLength({ max: 200 })
-    .withMessage('Drop-off location cannot exceed 200 characters.')
-    .escape(),
+    .withMessage('Drop-off location cannot exceed 200 characters.'),
+
+  body('vehicleType')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ max: 100 })
+    .withMessage('Vehicle category cannot exceed 100 characters.'),
+
+  body('travelDate')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isISO8601()
+    .withMessage('Please provide a valid preferred date.'),
+
+  body('tripNotes')
+    .optional({ checkFalsy: true })
+    .trim()
+    .isLength({ max: 1000 })
+    .withMessage('Trip notes cannot exceed 1000 characters.'),
 
   body('notes')
     .optional({ checkFalsy: true })
     .trim()
     .isLength({ max: 1000 })
-    .withMessage('Notes cannot exceed 1000 characters.')
-    .escape(),
+    .withMessage('Notes cannot exceed 1000 characters.'),
 ];

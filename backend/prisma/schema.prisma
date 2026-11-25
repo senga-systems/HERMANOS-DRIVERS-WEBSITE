@@ -27,6 +27,7 @@ enum BookingStatus {
 model Booking {
   id              String        @id @default(uuid())
   customerName    String        @map("customer_name")
+  customerEmail   String?       @map("customer_email")
   phoneNumber     String        @map("phone_number")
   serviceType     ServiceType   @map("service_type")
   pickupLocation  String?       @map("pickup_location")
@@ -37,6 +38,7 @@ model Booking {
   updatedAt       DateTime      @updatedAt @map("updated_at")
 
   @@index([phoneNumber])
+  @@index([customerEmail])
   @@index([status])
   @@index([createdAt])
   @@map("bookings")
