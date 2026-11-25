@@ -21,10 +21,18 @@ export default function App() {
   const [activeTab, setActiveTab] = useState('home');
   const [isBookingOpen, setIsBookingOpen] = useState(false);
   const [selectedService, setSelectedService] = useState('');
+  const [focusedServiceId, setFocusedServiceId] = useState('');
 
   const navigateToQuote = (serviceName = '') => {
     setSelectedService(serviceName);
+    setFocusedServiceId('');
     setActiveTab('quote');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const navigateToServices = (serviceId = '') => {
+    setFocusedServiceId(serviceId);
+    setActiveTab('services');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
@@ -39,6 +47,7 @@ export default function App() {
   };
 
   const handleSelectTab = (tab) => {
+    setFocusedServiceId('');
     setActiveTab(tab);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -75,7 +84,7 @@ export default function App() {
 
                 {/* Our Services 4-Card Section */}
                 <OurServices
-                  onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
+                  onSelectService={(serviceId) => navigateToServices(serviceId)}
                 />
 
                 {/* Our Team Arch Carousel Section */}
@@ -115,6 +124,7 @@ export default function App() {
                 transition={{ duration: 0.4 }}
               >
                 <ServicesPage
+                  focusedServiceId={focusedServiceId}
                   onOpenBooking={() => navigateToQuote()}
                   onSelectService={(serviceTitle) => navigateToQuote(serviceTitle)}
                 />

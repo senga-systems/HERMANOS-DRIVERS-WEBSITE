@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { ArrowRight, Car, Navigation, Briefcase, Key, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import HireDriverBanner from '../sections/HireDriverBanner';
 
@@ -61,7 +61,18 @@ const DETAILED_SERVICES = [
   },
 ];
 
-export default function ServicesPage({ onOpenBooking, onSelectService }) {
+export default function ServicesPage({ focusedServiceId = '', onOpenBooking, onSelectService }) {
+  useEffect(() => {
+    if (!focusedServiceId) return;
+    const timer = setTimeout(() => {
+      const targetEl = document.getElementById(focusedServiceId);
+      if (targetEl) {
+        targetEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      }
+    }, 100);
+    return () => clearTimeout(timer);
+  }, [focusedServiceId]);
+
   return (
     <div className="bg-[#070c32] text-white">
       {/* 1. Header Banner */}
@@ -89,7 +100,8 @@ export default function ServicesPage({ onOpenBooking, onSelectService }) {
           {DETAILED_SERVICES.map((service, index) => (
             <div
               key={service.id}
-              className="bg-white rounded-2xl p-6 sm:p-10 shadow-xl border border-gray-200 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
+              id={service.id}
+              className="scroll-mt-28 bg-white rounded-2xl p-6 sm:p-10 shadow-xl border border-gray-200 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center"
             >
               {/* Left Column: Number & Title */}
               <div className="lg:col-span-5 space-y-3">

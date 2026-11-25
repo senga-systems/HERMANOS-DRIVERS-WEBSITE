@@ -5,6 +5,7 @@ import { motion } from 'framer-motion';
 const SERVICES_DATA = [
   {
     id: 1,
+    targetId: 'vehicle-delivery',
     title: 'Vehicle Delivery',
     icon: (
       <svg className="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -18,6 +19,7 @@ const SERVICES_DATA = [
   },
   {
     id: 2,
+    targetId: 'long-distance',
     title: 'Long Distance Trips',
     icon: (
       <svg className="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -32,6 +34,7 @@ const SERVICES_DATA = [
   },
   {
     id: 3,
+    targetId: 'private-driving',
     title: 'Personal & Private Driving',
     icon: (
       <svg className="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -43,6 +46,7 @@ const SERVICES_DATA = [
   },
   {
     id: 4,
+    targetId: 'vehicle-collection',
     title: 'Vehicle Collection',
     icon: (
       <svg className="w-9 h-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
@@ -103,11 +107,12 @@ export default function OurServices({ onSelectService }) {
           className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
         >
           {SERVICES_DATA.map((service) => (
-            <motion.div
+            <motion.button
+              type="button"
               key={service.id}
               variants={cardVariants}
-              onClick={() => onSelectService(service.title)}
-              className="group cursor-pointer bg-[#d9d9d9] hover:bg-white text-[#070c32] rounded-2xl p-7 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:scale-95 transition-transform flex flex-col items-center justify-center min-h-[200px] shadow-lg"
+              onClick={() => onSelectService?.(service.targetId)}
+              className="group w-full cursor-pointer bg-[#d9d9d9] hover:bg-white text-[#070c32] rounded-2xl p-7 text-center transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl active:scale-95 flex flex-col items-center justify-center min-h-[200px] shadow-lg focus:outline-none focus:ring-2 focus:ring-[#f19e02]"
             >
               {/* Gray Square Icon Container */}
               <div className="w-16 h-16 rounded-xl bg-[#6b7280] text-white group-hover:bg-[#f19e02] group-hover:text-[#070c32] flex items-center justify-center mb-5 transition-colors duration-300 shadow-sm">
@@ -118,7 +123,7 @@ export default function OurServices({ onSelectService }) {
               <h3 className="text-base sm:text-lg font-bold tracking-tight text-[#070c32] group-hover:text-black transition-colors">
                 {service.title}
               </h3>
-            </motion.div>
+            </motion.button>
           ))}
         </motion.div>
       </div>
